@@ -1,5 +1,6 @@
 {
   "name": "geekbudget.web",
+  "homepage" : "https://minajevs.github.io/GeekBudget.Web/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
