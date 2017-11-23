@@ -7,6 +7,8 @@ install:
 script:
   - npm run test
   - npm run cover
+  - REACT_APP_API_URL=$api_url
+  - REACT_APP_API_ACCESS_KEY=$api_key
   - npm run build
 after_script:  
   - COVERALLS_REPO_TOKEN=$coveralls_token npm run coveralls
