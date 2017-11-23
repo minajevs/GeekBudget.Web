@@ -4,10 +4,8 @@ import * as tabApi from './tab';
 import * as operationApi from './operation';
 import { apiHelpers } from 'helpers';
 
-module Api{
-    export const tab = tabApi;
-    export const operation = operationApi;
-    export const helpers = apiHelpers;
+export default class Api{
+    static tab = tabApi;
+    static operation = operationApi;
+    static helpers = apiHelpers;
 }
-
-export default Api;

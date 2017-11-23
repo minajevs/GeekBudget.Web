@@ -5,7 +5,7 @@ import { ApplicationError, ValidationError } from 'types';
 
 import { throwApplicationError } from 'actions/errorActions';
 
-import Api from 'api';
+import Api from '../../api';
 
 import Tab from 'models/Tab';
 
