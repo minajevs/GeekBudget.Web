@@ -19,6 +19,7 @@ import { Route, Link, withRouter } from 'react-router-dom';
 import Tab from 'components/Tab';
 import TabModel from 'models/Tab';
 
+import SettingsContainer from 'containers/Settings';
 import TabsContainer from 'containers/Tabs';
 import OperationsContainer from 'containers/Operations';
 
@@ -48,18 +49,32 @@ class App extends React.Component<Props> {
     render() {
         const { dispatch, store } = this.props;
         return (
-            <Grid container style={styles.app} spacing={40}>
+            <Grid container style={styles.app} spacing={40} justify="center">
                 <Grid item xs={12} style={styles.header}>
-                    <Typography type="display3" style={{color: grey[50]}}>
-                        Geek<div className="App-logo" style={{display: 'inline-block'}}>Budget</div>
+                    <Typography type="display3" style={{ color: grey[50] }}>
+                        Geek<div className="App-logo" style={{ display: 'inline-block' }}>Budget</div>
                     </Typography>
                 </Grid>
-                <Grid item md={6} xs={12}>
-                    <TabsContainer />
-                </Grid>
-                <Grid item md={6} xs={12}>
-                    <OperationsContainer />
-                </Grid>
+                <Route
+                    exact
+                    path="/"
+                    render={() => [
+                        <Grid item md={6} xs={12} key="tabs">
+                            <TabsContainer />
+                        </Grid>,
+                        <Grid item md={6} xs={12} key="operations">
+                            <OperationsContainer />
+                        </Grid>
+                    ]} 
+                />
+                <Route 
+                    path="/settings"
+                    render={() => 
+                        <Grid item md={8} xs={12} key="tabs">
+                            <SettingsContainer />
+                        </Grid>
+                    }
+                />
             </Grid>
         );
     }
