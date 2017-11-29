@@ -19,7 +19,7 @@ const historyMiddleware = routerMiddleware(history);
 
 export const shallowWithStore = (component: React.ReactElement<{}>, state: StoreState = initialState) => {
     const store = createStore(
-        rootReducer, 
+        rootReducer,
         state,
         applyMiddleware(historyMiddleware, thunk)
     );
@@ -29,7 +29,7 @@ export const shallowWithStore = (component: React.ReactElement<{}>, state: Store
 
 export const mountWithStore = (component: React.ReactElement<{}>, state: StoreState = initialState) => {
     const store = createStore(
-        rootReducer, 
+        rootReducer,
         state,
         applyMiddleware(historyMiddleware, thunk)
     );
@@ -58,6 +58,29 @@ export const mockApi = () => {
     Api.tab = tabMock;
 
     return { operationMock, tabMock };
+};
+
+export const mockLocalStorage = () => {
+    var localStorageMock = (function () {
+        var store = {};
+        return {
+            getItem: function (key: string) {
+                return store[key] || null;
+            },
+            setItem: function (key: string, value: string) {
+                store[key] = value.toString();
+            },
+            clear: function () {
+                store = {};
+            },
+            removeItem: function (key: string) {
+                delete store[key];
+            }
+        };
+    })();
+
+    Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+    return localStorageMock;
 };
 
 export const mockFetch = (response: Response) => {

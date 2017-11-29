@@ -7,6 +7,16 @@ export interface StoreState{
     operations: OperationState;
     applicationError: ApplicationErrorState;
     router: RouterState;
+    settings: SettingsState;
+}
+
+export interface SettingsState{
+    items: Setting[];
+}
+
+export interface Setting{
+    key: string;
+    value: string;
 }
 
 export interface TabState{
@@ -53,6 +63,12 @@ export interface ValidationError{
 }
 
 export const initialState: StoreState = {
+    settings: {
+        items: [
+            {key: 'api-url', value: ''},
+            {key: 'access-key', value: ''}
+        ]
+    },
     tabs: {
         isFetching: false,
         items: [],

@@ -12,14 +12,15 @@ import thunk from 'redux-thunk';
 import { Store, createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { StoreState, initialState } from './types';
-import { rootReducer } from './reducers';
-import { getAllTabs, removeTab } from './actions/tabActions';
-import { getAllOperations, addOperation, removeOperation } from './actions/operationActions';
+import { rootReducer } from 'reducers';
+import { initialiseSettings, updateAllSettings, setApplicationSetting, setSetting } from 'actions/settingsActions';
+import { getAllTabs, removeTab } from 'actions/tabActions';
+import { getAllOperations, addOperation, removeOperation } from 'actions/operationActions';
 
 // Other
-import App from './containers/App';
-import registerServiceWorker from './registerServiceWorker';
-import Api from './api';
+import App from 'containers/App';
+import registerServiceWorker from 'registerServiceWorker';
+import Api from 'api';
 
 // Setup router and redux-router
 const history = createHistory();
@@ -31,6 +32,8 @@ const store: Store<StoreState> = createStore(
     initialState,
     applyMiddleware(historyMiddleware, thunk)
 );
+
+store.dispatch(initialiseSettings());
 
 // Init app state
 store.dispatch(getAllTabs())

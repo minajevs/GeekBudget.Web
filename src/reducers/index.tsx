@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { tabReducers } from './tabReducers';
 import { operationReducers } from './operationReducers';
 import { errorReducers } from './errorReducers';
+import { settingsReducers } from './settingsReducers';
 
 import { StoreState, TabState } from 'types';
 
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers<StoreState>({
     tabs: tabReducers,
     operations: operationReducers, 
     router: routerReducer,
-    applicationError: errorReducers
+    applicationError: errorReducers,
+    settings: settingsReducers
 });
