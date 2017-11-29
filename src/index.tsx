@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 // Router
-import createHistory from 'history/createBrowserHistory';
+import createHistory from 'history/createHashHistory';
 import { Route } from 'react-router'; // probably should use <Router> insted
 import { ConnectedRouter, routerMiddleware, push } from 'react-router-redux';
 
