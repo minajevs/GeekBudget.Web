@@ -3,6 +3,7 @@ import * as React from 'react';
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
 import { CircularProgress } from 'material-ui/Progress';
+import Paper from 'material-ui/Paper';
 
 // Redux
 import { Dispatch } from 'redux';
@@ -28,20 +29,22 @@ class Tabs extends React.Component<Props> {
     render() {
         const { dispatch, store } = this.props;
         return (
-            <Grid container>
-                <Grid item xs={12}>
-                    {store.tabs.isFetching ?
-                        <Grid container alignItems="center" justify="center" spacing={0}>
-                            <Grid item>
-                                <CircularProgress size={100}/>
+            <Paper>
+                <Grid container>
+                    <Grid item xs={12}>
+                        {store.tabs.isFetching ?
+                            <Grid container alignItems="center" justify="center" spacing={0}>
+                                <Grid item>
+                                    <CircularProgress size={100} />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        :
-                        <TabList />
-                    }
+                            :
+                            <TabList />
+                        }
+                    </Grid>
+                    <TabEdit />
                 </Grid>
-                <TabEdit />
-            </Grid>
+            </Paper>
         );
     }
 }

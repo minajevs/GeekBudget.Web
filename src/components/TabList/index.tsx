@@ -31,12 +31,12 @@ class TabList extends React.Component<Props> {
             <Grid container>
                 {store.tabs.items.map(t => {
                     return (
-                        <Grid item xs={12} sm={3} md={4} lg={4} key={t.id}>
+                        <Grid item xs={4} sm={3} md={4} lg={4} key={t.id}>
                             <Tab tab={t} />
                         </Grid>
                     );
                 })}
-                <Grid item xs={12} sm={3} md={4} lg={4}>
+                <Grid item xs={4} sm={3} md={3} lg={2}>
                     <Grid container alignItems="center" justify="center" spacing={0} style={{ height: '100%' }}>
                         <Grid item>
                             <TabAddButton />

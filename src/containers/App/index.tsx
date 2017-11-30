@@ -14,7 +14,6 @@ import { StoreState } from 'types/index';
 import { Route, Link, withRouter } from 'react-router-dom';
 
 // Components
-import Tab from 'components/Tab';
 import TabModel from 'models/Tab';
 
 import HeaderContainer from 'containers/Header';
@@ -47,26 +46,30 @@ class App extends React.Component<Props> {
                 <Grid item xs={12}>
                     <HeaderContainer />
                 </Grid>
-                <Route
-                    exact
-                    path="/"
-                    render={() => [
-                        <Grid item md={6} xs={12} key="tabs">
-                            <TabsContainer />
-                        </Grid>,
-                        <Grid item md={6} xs={12} key="operations">
-                            <OperationsContainer />
-                        </Grid>
-                    ]}
-                />
-                <Route
-                    path="/settings"
-                    render={() =>
-                        <Grid item md={8} xs={12} key="tabs">
-                            <SettingsContainer />
-                        </Grid>
-                    }
-                />
+                <Grid item xs={12} md={10}>
+                    <Grid container justify="center">
+                        <Route
+                            exact
+                            path="/"
+                            render={() => [
+                                <Grid item md={6} xs={12} key="tabs">
+                                    <TabsContainer />
+                                </Grid>,
+                                <Grid item md={6} xs={12} key="operations">
+                                    <OperationsContainer />
+                                </Grid>
+                            ]}
+                        />
+                        <Route
+                            path="/settings"
+                            render={() =>
+                                <Grid item md={8} xs={12} key="tabs">
+                                    <SettingsContainer />
+                                </Grid>
+                            }
+                        />
+                    </Grid>
+                </Grid>
             </Grid>
         );
     }
