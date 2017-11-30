@@ -2,8 +2,6 @@
 import * as React from 'react';
 // import { withStyles } from 'material-ui/styles'; TODO!!
 import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
-import { grey } from 'material-ui/colors';
 import './style.css';
 
 // Redux
@@ -19,6 +17,7 @@ import { Route, Link, withRouter } from 'react-router-dom';
 import Tab from 'components/Tab';
 import TabModel from 'models/Tab';
 
+import HeaderContainer from 'containers/Header';
 import SettingsContainer from 'containers/Settings';
 import TabsContainer from 'containers/Tabs';
 import OperationsContainer from 'containers/Operations';
@@ -34,11 +33,6 @@ const styles = {
     app: {
         fontFamily: 'roboto'
     },
-    header: {
-        backgroundColor: '#222',
-        textAlign: 'center',
-        zIndex: -99
-    } as React.CSSProperties,
     link: {
         backgroundColor: '#fff',
         margin: '10px'
@@ -50,10 +44,8 @@ class App extends React.Component<Props> {
         const { dispatch, store } = this.props;
         return (
             <Grid container style={styles.app} spacing={40} justify="center">
-                <Grid item xs={12} style={styles.header}>
-                    <Typography type="display3" style={{ color: grey[50] }}>
-                        Geek<div className="App-logo" style={{ display: 'inline-block' }}>Budget</div>
-                    </Typography>
+                <Grid item xs={12}>
+                    <HeaderContainer />
                 </Grid>
                 <Route
                     exact
@@ -65,11 +57,11 @@ class App extends React.Component<Props> {
                         <Grid item md={6} xs={12} key="operations">
                             <OperationsContainer />
                         </Grid>
-                    ]} 
+                    ]}
                 />
-                <Route 
+                <Route
                     path="/settings"
-                    render={() => 
+                    render={() =>
                         <Grid item md={8} xs={12} key="tabs">
                             <SettingsContainer />
                         </Grid>

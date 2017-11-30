@@ -7,6 +7,8 @@ const tabs: Tab[] = [
 ];
 
 describe('Operation api', () => {
+    localStorage.setItem('api-url', 'https://testurl/api');
+    localStorage.setItem('access-key', 'accesskey');
     describe('getall', () => {
         it('should return tabs', async () => {
             const fetch = mockFetch(mockFetchResponse(tabs, 200, 'ok'));

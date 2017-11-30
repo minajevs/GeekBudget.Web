@@ -195,9 +195,22 @@ describe('Tab thunks', () => {
             const error = Error('test');
             const thunk = actions.errorTab(error);
             const dispatch = jest.fn();
-            await thunk(dispatch);
+            try{
+                await thunk(dispatch);
+            } catch { /*do nithing*/}
             expect(dispatch.mock.calls[0][0]).toEqual(actions.apiResponseTab('failed'));
             expect(dispatch.mock.calls.length).toBe(2);
+        });
+        it('should rethrow original error', async () => {
+            const error = Error('test');
+            const thunk = actions.errorTab(error);
+            const dispatch = jest.fn();
+            try{
+                await thunk(dispatch);
+                expect(true).toBe(false); // Fail
+            } catch (e) {
+                expect(e).toBe(error);
+            }
         });
     });
     describe('save', () => {

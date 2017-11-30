@@ -87,6 +87,7 @@ export function errorOperation(error: Error) {
     return async function (dispatch: Dispatch<{}>){
         dispatch(apiResponseOperation('failed'));
         dispatch(throwApplicationError(appError));
+        throw error;
     };
 }
 

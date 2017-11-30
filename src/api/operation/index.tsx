@@ -3,9 +3,9 @@ import Operation from 'models/Operation';
 import { createApiUrl, createRequestOptions } from 'helpers/api';
 
 export const getAll = async (): Promise<Operation[]> => {
-    const url = createApiUrl('operation', 'getall');
-    const options = createRequestOptions('GET');
     try{
+        const url = createApiUrl('operation', 'getall');
+        const options = createRequestOptions('GET');
         const response = await fetch(url, options);
 
         if (response.status !== 200)
@@ -20,9 +20,9 @@ export const getAll = async (): Promise<Operation[]> => {
 };
 
 export const add = async (operation: Operation): Promise<number> => {
-    const url = createApiUrl('operation', 'add');
-    const options = createRequestOptions('POST', operation);
     try{
+        const url = createApiUrl('operation', 'add');    
+        const options = createRequestOptions('POST', operation);
         const response = await fetch(url, options);
 
         if (response.status !== 200)
@@ -35,9 +35,9 @@ export const add = async (operation: Operation): Promise<number> => {
 };
 
 export const remove = async (id: number): Promise<boolean> => {
-    const url = createApiUrl('operation', 'remove', id.toString());
-    const options = createRequestOptions('POST');
     try{
+        const url = createApiUrl('operation', 'remove', id.toString());
+        const options = createRequestOptions('POST');
         const response = await fetch(url, options);
 
         if (response.status !== 200)
@@ -50,9 +50,9 @@ export const remove = async (id: number): Promise<boolean> => {
 };
 
 export const update = async (operation: Operation): Promise<boolean> => {
-    const url = createApiUrl('operation', 'update');
-    const options = createRequestOptions('POST', operation);
     try{
+        const url = createApiUrl('operation', 'update');
+        const options = createRequestOptions('POST', operation);
         const response = await fetch(url, options);
 
         if (response.status !== 200)

@@ -5,14 +5,20 @@ import * as helpers from '.';
 // REACT_APP_API_ACCESS_KEY="accesskey"
 
 describe('Api helpers', () => {
+    localStorage.setItem('api-url', 'https://testurl/api');
+    localStorage.setItem('access-key', 'accesskey');
     describe('create api url', () => {
         it('should create correct url', () => {
             const url = helpers.createApiUrl('test-route', 'test-method', 'test-data');
-            expect(url).toEqual('https://localhost/api/test-route/test-method/test-data');
+            expect(url).toEqual('https://testurl/api/test-route/test-method/test-data');
         });
         it('should create correct url withoud data', () => {
             const url = helpers.createApiUrl('test-route', 'test-method');
-            expect(url).toEqual('https://localhost/api/test-route/test-method/');
+            expect(url).toEqual('https://testurl/api/test-route/test-method/');
+        });
+        it('should throw an error if no api url', () => {
+            localStorage.removeItem('api-url');
+            expect(() => helpers.createApiUrl('test-route', 'test-method')).toThrowError(/not set/);
         });
     });
 
@@ -31,6 +37,10 @@ describe('Api helpers', () => {
             const body = {test: 'value'};
             const options = helpers.createRequestOptions('GET');
             expect(options.body).toBeNull();
+        });
+        it('should throw an error if no access key', () => {
+            localStorage.removeItem('access-key');
+            expect(() => helpers.createRequestOptions('GET')).toThrowError(/not set/);
         });
     });
     describe('create error string from dict', () => {

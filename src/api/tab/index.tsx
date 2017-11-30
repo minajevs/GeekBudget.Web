@@ -3,9 +3,9 @@ import Tab from 'models/Tab';
 import { createApiUrl, createRequestOptions } from 'helpers/api';
 
 export const getAll = async (): Promise<Tab[]> => {
-    const url = createApiUrl('tab', 'getall');
-    const options = createRequestOptions('GET');
     try{
+        const url = createApiUrl('tab', 'getall');
+        const options = createRequestOptions('GET');
         const response = await fetch(url, options);
 
         if (response.status !== 200)
@@ -18,9 +18,9 @@ export const getAll = async (): Promise<Tab[]> => {
 };
 
 export const add = async (tab: Tab): Promise<number> => {
-    const url = createApiUrl('tab', 'add');
-    const options = createRequestOptions('POST', tab);
     try{
+        const url = createApiUrl('tab', 'add');
+        const options = createRequestOptions('POST', tab);
         const response = await fetch(url, options);
 
         if (response.status !== 200)
@@ -33,9 +33,9 @@ export const add = async (tab: Tab): Promise<number> => {
 };
 
 export const remove = async (id: number): Promise<boolean> => {
-    const url = createApiUrl('tab', 'remove', id.toString());
-    const options = createRequestOptions('POST');
     try{
+        const url = createApiUrl('tab', 'remove', id.toString());
+        const options = createRequestOptions('POST');
         const response = await fetch(url, options);
         if (response.status !== 200)
             throw await response.text(); // TODO
@@ -47,9 +47,9 @@ export const remove = async (id: number): Promise<boolean> => {
 };
 
 export const update = async (tab: Tab): Promise<boolean> => {
-    const url = createApiUrl('tab', 'update');
-    const options = createRequestOptions('POST', tab);
     try{
+        const url = createApiUrl('tab', 'update');
+        const options = createRequestOptions('POST', tab);
         const response = await fetch(url, options);
         if (response.status !== 200)
             throw await response.text(); // TODO

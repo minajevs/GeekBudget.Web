@@ -4,8 +4,7 @@ import * as ReactDOM from 'react-dom';
 
 // Router
 import createHistory from 'history/createHashHistory';
-import { Route } from 'react-router'; // probably should use <Router> insted
-import { ConnectedRouter, routerMiddleware, push } from 'react-router-redux';
+import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 
 // Redux
 import thunk from 'redux-thunk';
@@ -33,9 +32,9 @@ const store: Store<StoreState> = createStore(
     applyMiddleware(historyMiddleware, thunk)
 );
 
+// Init app state
 store.dispatch(initialiseSettings());
 
-// Init app state
 store.dispatch(getAllTabs())
     .then(() => {
         store.dispatch(getAllOperations());
@@ -49,4 +48,5 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root') as HTMLElement
 );
+
 registerServiceWorker();

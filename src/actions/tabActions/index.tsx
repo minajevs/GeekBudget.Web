@@ -82,6 +82,7 @@ export function errorTab(error:  Error) {
     return async function (dispatch: Dispatch<{}>){
         dispatch(apiResponseTab('failed'));
         dispatch(throwApplicationError(appError));
+        throw error;
     };
 }
 

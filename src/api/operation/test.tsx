@@ -11,6 +11,8 @@ const operations: Operation[] = [
 ];
 
 describe('Operation api', () => {
+    localStorage.setItem('api-url', 'https://testurl/api');
+    localStorage.setItem('access-key', 'accesskey');
     describe('getall', () => {
         it('should return operations', async () => {
             const fetch = mockFetch(mockFetchResponse(operations, 200, 'ok'));

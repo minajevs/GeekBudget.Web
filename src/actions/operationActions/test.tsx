@@ -95,7 +95,7 @@ describe('Operation actions', () => {
     });
 });
 
-describe('Thunks', () => {
+describe('Operation thunks', () => {
     describe('getall', () => {
         it('should get a response', async () => {
             const thunk = actions.getAllOperations();
@@ -195,9 +195,22 @@ describe('Thunks', () => {
             const error = Error('test');
             const thunk = actions.errorOperation(error);
             const dispatch = jest.fn();
-            await thunk(dispatch);
+            try{
+                await thunk(dispatch);
+            } catch { /*do nithing*/}
             expect(dispatch.mock.calls[0][0]).toEqual(actions.apiResponseOperation('failed'));
             expect(dispatch.mock.calls.length).toBe(2);
+        });
+        it('should rethrow original error', async () => {
+            const error = Error('test');
+            const thunk = actions.errorOperation(error);
+            const dispatch = jest.fn();
+            try{
+                await thunk(dispatch);
+                expect(true).toBe(false); // Fail
+            } catch (e) {
+                expect(e).toBe(error);
+            }
         });
     });
     describe('save', () => {
