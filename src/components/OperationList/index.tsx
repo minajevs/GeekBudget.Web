@@ -13,6 +13,7 @@ import { Route, Redirect, Link, withRouter, RouteComponentProps } from 'react-ro
 
 import OperationModel from 'models/Operation';
 import Operation from 'components/Operation';
+import Operation2 from 'components/Operation2';
 import OperationEdit from 'components/OperationEdit';
 
 interface Props {
@@ -32,7 +33,7 @@ class OperationList extends React.Component<Props> {
                 {store.operations.items.map(o => {
                     return (
                         <Grid item xs={12} lg={12} key={o.id}>
-                            <Operation operation={o} />
+                            <Operation2 operation={o} />
                         </Grid>
                     );
                 })}

@@ -14,7 +14,7 @@ export const createRequestOptions = (method: string, body: object | null = null)
     if (accessKey == null) throw 'Access key is not set! Please configure it in settings!';
     return {
         headers: new Headers({
-            'user-key': process.env.REACT_APP_API_ACCESS_KEY,
+            'user-key': accessKey,
             'Content-Type': 'application/json'
         }),
         method: method,
