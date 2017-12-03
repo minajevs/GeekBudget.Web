@@ -30,11 +30,15 @@ interface Props {
 
 interface State {
     openConfirmationDialog: boolean;
+    hover: boolean;
 }
 
 const styles = {
     paper: {
         padding: 16
+    },
+    menuBtn: {
+        height: 'auto'
     }
 };
 
@@ -42,7 +46,8 @@ export class Operation extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            openConfirmationDialog: false
+            openConfirmationDialog: false,
+            hover: false
         };
     }
     onEditClick = () => {
@@ -62,63 +67,81 @@ export class Operation extends React.Component<Props, State> {
         this.setState({ openConfirmationDialog: false });
     }
 
+    hoverEnter = () => this.setState({ hover: true });
+    
+    hoverLeave = () => this.setState({ hover: false });
+    
     render() {
         const { operation, tabs } = this.props;
         const fromTab = tabs.find(t => t.id === operation.from) as TabModel;
         const toTab = tabs.find(t => t.id === operation.to) as TabModel;
-
-        return (
-            <Paper style={styles.paper}>
-                <Grid container alignItems="center">
-                    <Grid item xs={1}>
-                        <Avatar 
-                            aria-label="OperationIcon" 
-                            style={{ color: green[900], backgroundColor: green[300], marginRight: 16 }}
-                        >
-                            <EuroSymbol />
-                        </Avatar>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Typography type="title" className="name">
-                            {fromTab.name} -> {toTab.name}
-                        </Typography>
-                        <Typography type="body2" className="date">
-                            {dateToString(operation.date)}
-                        </Typography>
-                        <Typography type="body1" className="comment">
-                            {operation.comment}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Typography type="subheading" className="amount">
-                            {operation.amount} €
-                    </Typography>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <IconButton
-                            aria-label="Edit"
-                            onClick={this.onEditClick}
-                        >
-                            <ModeEdit />
-                        </IconButton>
-                        <IconButton
-                            aria-label="Remove"
-                            onClick={this.onRemoveClick}
-                            classes={{root: 'remove-btn'}}
-                        >
-                            <DeleteForever />
-                        </IconButton>
+        const { hover } = this.state;
+        return [(
+            <Grid 
+                container 
+                spacing={0} 
+                onMouseEnter={this.hoverEnter} 
+                onMouseLeave={this.hoverLeave} 
+                key={operation.id}
+            >
+                <Grid item xs>
+                    <Paper style={styles.paper}>
+                        <Grid container spacing={8} alignItems="center">
+                            <Grid item>
+                                <Avatar style={{ color: green[900], backgroundColor: green[300] }}>
+                                    <EuroSymbol />
+                                </Avatar>
+                            </Grid>
+                            <Grid item>
+                                <Typography type="body1" style={{fontWeight: 500}}>
+                                    {fromTab.name} -> {toTab.name}
+                                </Typography>
+                                <Typography type="caption">
+                                    {dateToString(operation.date)}
+                                </Typography>
+                            </Grid>
+                            <Grid item style={{ marginLeft: 'auto', marginRight: '16px', textAlign: 'right' }}>
+                                <Typography type="body2">
+                                    {operation.amount} €
+                                </Typography>
+                                <Typography type="caption">
+                                    {operation.comment}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+                <Grid item>
+                    <Grid container direction="column" spacing={0} justify="space-between" style={{height: '100%'}}>
+                        <Grid item>
+                            <IconButton 
+                                onClick={this.onEditClick}
+                                style={{ ...styles.menuBtn, visibility: hover ? 'visible' : 'hidden' }}
+                            >
+                                <ModeEdit />
+                            </IconButton>
+                        </Grid>
+                        <Grid item>
+                            <IconButton 
+                                onClick={this.onRemoveClick}
+                                style={{ ...styles.menuBtn, visibility: hover ? 'visible' : 'hidden' }}
+                            >
+                                <DeleteForever />
+                            </IconButton>
+                        </Grid>
                     </Grid>
                 </Grid>
-                <ConfirmationDialog
-                    open={this.state.openConfirmationDialog}
-                    onClose={this.onRemoveClose}
-                    onConfirm={this.onRemoveConfirm}
-                    title={`Do you really want to remove this operation?`}
-                    text={`After opeartion is deleted you can't restore it!`}
-                />
-            </Paper>
-        );
+            </Grid>
+        ), (
+            <ConfirmationDialog
+                key={operation.id + 'confirm'}
+                open={this.state.openConfirmationDialog}
+                onClose={this.onRemoveClose}
+                onConfirm={this.onRemoveConfirm}
+                title={`Do you really want to remove this operation?`}
+                text={`After opeartion is deleted you can't restore it!`}
+            />
+        )];
     }
 }
 

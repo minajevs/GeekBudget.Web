@@ -85,6 +85,7 @@ class Tab extends React.Component<Props, State> {
                 spacing={0}
                 onMouseEnter={this.hoverEnter}
                 onMouseLeave={this.hoverLeave}
+                key={tab.id}
             >
                 <Grid item>
                     <IconButton
@@ -122,7 +123,7 @@ class Tab extends React.Component<Props, State> {
         ),
         (
             <ConfirmationDialog
-                key="dialog"
+                key={tab.id + 'confirm'}
                 open={this.state.openConfirmationDialog}
                 onClose={this.onRemoveClose}
                 onConfirm={this.onRemoveConfirm}
