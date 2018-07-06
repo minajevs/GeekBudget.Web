@@ -7,26 +7,26 @@ import { connect } from 'react-redux';
 import { operationActions } from 'actions';
 import { OperationEditState, StoreState } from 'types/index';
 
-import Dialog, {
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from 'material-ui/Dialog';
-import Button from 'material-ui/Button';
-import Grid from 'material-ui/Grid';
-import TextField from 'material-ui/TextField';
-import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import Select from 'material-ui/Select';
-import { MenuItem } from 'material-ui/Menu';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
 
 import OperationModel from 'models/Operation';
 import TabModel from 'models/Tab';
 import TabSelector from 'components/TabSelector';
 
 interface Props {
-    dispatch: Dispatch<{}>;
+    dispatch: Dispatch<any>;
     store: OperationEditState;
     tabs: TabModel[];
 }
@@ -73,7 +73,7 @@ class OperationEdit extends React.Component<Props, State> {
         const {open, isNew} = store;
         const title = isNew ? 'Add new operation' : 'Edit operation';
         return (
-            <Dialog open={open} onRequestClose={this.onClose} fullWidth>
+            <Dialog open={open} onClose={this.onClose} fullWidth>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>

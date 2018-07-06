@@ -1,12 +1,13 @@
 import * as constants from 'constants/settingsConstants';
 import { Setting, SettingsState, ApplicationError, initialState } from 'types/index';
 import { createAction } from 'redux-actions';
-import { Dispatch } from 'react-redux';
+import { Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import { throwApplicationError } from 'actions/errorActions';
 
 export const setApplicationSetting = createAction<Setting>(constants.SET_APPLICATION_SETTING);
 export function setSetting(setting: Setting) {
-    return function (dispatch: Dispatch<{}>){
+    return function (dispatch: Dispatch<any>){
         const allKeys = window.localStorage.getItem('setting-keys');
         if (allKeys == null){
             dispatch(throwApplicationError({code: 99, object: {}, text: 'Setting keys are not initialized!'}));
@@ -26,7 +27,7 @@ export function setSetting(setting: Setting) {
 
 export const updateAllApplicationSettings = createAction<Setting[]>(constants.UPDATE_ALL_APPLICATION_SETTINGS);
 export function updateAllSettings() {
-    return function (dispatch: Dispatch<{}>){
+    return function (dispatch: Dispatch<any>){
         const allKeys = window.localStorage.getItem('setting-keys');
         if (allKeys == null){
             dispatch(throwApplicationError({code: 99, object: {}, text: 'Setting keys are not initialized!'}));
@@ -40,7 +41,7 @@ export function updateAllSettings() {
 }
 
 export function initialiseSettings() {
-    return function (dispatch: Dispatch<{}>){
+    return function (dispatch: Dispatch<any>){
         const allKeys = window.localStorage.getItem('setting-keys');
         
         if (allKeys != null) {

@@ -6,20 +6,19 @@ import { connect } from 'react-redux';
 import { tabActions } from 'actions';
 import { TabEditState, StoreState } from 'types/index';
 
-import Dialog, {
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from 'material-ui/Dialog';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
-import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import TabModel from 'models/Tab';
 
 interface Props {
-    dispatch: Dispatch<{}>;
+    dispatch: Dispatch<any>;
     store: TabEditState;
 }
 
@@ -61,7 +60,7 @@ class TabEdit extends React.Component<Props, State> {
         const { open, isNew } = this.props.store;
         const title = isNew ? 'Add new tab' : `Edit "${innerTab.name}"`;
         return (
-            <Dialog open={open} onRequestClose={this.onClose}>
+            <Dialog open={open} onClose={this.onClose}>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>

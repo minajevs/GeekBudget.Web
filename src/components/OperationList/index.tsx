@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Grid from 'material-ui/Grid';
+import Grid from '@material-ui/core/Grid';
 
 // Redux
 import { Dispatch } from 'redux';
@@ -15,14 +15,10 @@ import OperationModel from 'models/Operation';
 import Operation from 'components/Operation';
 import OperationEdit from 'components/OperationEdit';
 
-interface Props {
-    dispatch: Dispatch<{}>;
+type Props =  {
+    dispatch: Dispatch<any>;
     store: StoreState;
-}
-
-interface State {
-
-}
+} & RouteComponentProps<any>;
 
 class OperationList extends React.Component<Props> {
     render() {

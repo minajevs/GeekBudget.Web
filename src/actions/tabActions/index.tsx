@@ -12,7 +12,7 @@ import Tab from 'models/Tab';
 export const apiRequestAllTabs = createAction(constants.API_REQUEST_ALL_TAB);
 export const apiResponseAllTabs = createAction<Tab[]>(constants.API_RESPONSE_ALL_TAB);
 export function getAllTabs() {
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(apiRequestAllTabs());
         try {
             const tabs = await Api.tab.getAll();
@@ -30,7 +30,7 @@ export const apiResponseGetTab = createAction<Tab>(constants.API_RESPONSE_GET_TA
 export const apiRequestAddTab = createAction<Tab>(constants.API_REQUEST_ADD_TAB);
 export const apiResponseAddTab = createAction<number>(constants.API_RESPONSE_ADD_TAB);
 export function addTab(tab: Tab) {
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(apiRequestAddTab(tab));
         try {
             const newId = await Api.tab.add(tab);    // Add tab, get its ID
@@ -45,7 +45,7 @@ export function addTab(tab: Tab) {
 
 export const apiRequestRemoveTab = createAction<number>(constants.API_REQUEST_REMOVE_TAB);
 export function removeTab(id: number) {
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(apiRequestRemoveTab(id));
         try {
             await Api.tab.remove(id);
@@ -59,7 +59,7 @@ export function removeTab(id: number) {
 
 export const apiRequestEditTab = createAction<Tab>(constants.API_REQUEST_EDIT_TAB);
 export function editTab(tab: Tab) {
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(apiRequestEditTab(tab));
         try {
             await Api.tab.update(tab);
@@ -79,7 +79,7 @@ export function errorTab(error:  Error) {
         object: error as {}, // TODO
         text: JSON.stringify(error) // TODO
     };
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(apiResponseTab('failed'));
         dispatch(throwApplicationError(appError));
         throw error;
@@ -90,7 +90,7 @@ export const uiEditOpenTab = createAction<Tab>(constants.UI_EDIT_OPEN_TAB);
 export const uiEditCloseTab = createAction(constants.UI_EDIT_CLOSE_TAB);
 export const uiEditSaveTab = createAction<Tab>(constants.UI_EDIT_SAVE_TAB);
 export function saveTab(tab: Tab) {
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(uiEditSaveTab(tab));
         if (tab.id === -1) // new tab
             dispatch(addTab(tab));

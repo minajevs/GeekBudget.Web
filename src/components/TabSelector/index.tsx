@@ -3,8 +3,9 @@ import * as Autosuggest from 'react-autosuggest';
 let match = require('autosuggest-highlight/match');
 let parse = require('autosuggest-highlight/parse');
 
-import TextField from 'material-ui/TextField';
-import Menu, { MenuItem } from 'material-ui/Menu';
+import TextField from '@material-ui/core/TextField';
+import Menu from '@material-ui/core/Menu';
+import MenuItem  from '@material-ui/core/MenuItem';
 
 import Operation from 'models/Operation';
 import TabModel from 'models/Tab';

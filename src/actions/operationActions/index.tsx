@@ -14,7 +14,7 @@ import Operation from 'models/Operation';
 export const apiRequestAllOperations = createAction(constants.API_REQUEST_ALL_OPERATION);
 export const apiResponseAllOperations = createAction<Operation[]>(constants.API_RESPONSE_ALL_OPERATION);
 export function getAllOperations() {
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(apiRequestAllOperations());
         try {
             let operations = await Api.operation.getAll();
@@ -32,7 +32,7 @@ export const apiResponseGetOperation = createAction<Operation>(constants.API_RES
 export const apiRequestAddOperation = createAction<Operation>(constants.API_REQUEST_ADD_OPERATION);
 export const apiResponseAddOperation = createAction<number>(constants.API_RESPONSE_ADD_OPERATION);
 export function addOperation(operation: Operation) {
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(apiRequestAddOperation(operation));
         try {
             const newId = await Api.operation.add(operation);    // Add operation, get its ID
@@ -48,7 +48,7 @@ export function addOperation(operation: Operation) {
 
 export const apiRequestRemoveOperation = createAction<number>(constants.API_REQUEST_REMOVE_OPERATION);
 export function removeOperation(id: number) {
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(apiRequestRemoveOperation(id));
         try {
             await Api.operation.remove(id);
@@ -63,7 +63,7 @@ export function removeOperation(id: number) {
 
 export const apiRequestEditOperation = createAction<Operation>(constants.API_REQUEST_EDIT_OPERATION);
 export function editOperation(operation: Operation) {
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(apiRequestEditOperation(operation));
         try {
             await Api.operation.update(operation);
@@ -84,7 +84,7 @@ export function errorOperation(error: Error) {
         object: error as {}, // TODO
         text: JSON.stringify(error) // TODO
     };
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(apiResponseOperation('failed'));
         dispatch(throwApplicationError(appError));
         throw error;
@@ -95,7 +95,7 @@ export const uiEditOpenOperation = createAction<Operation>(constants.UI_EDIT_OPE
 export const uiEditCloseOperation = createAction(constants.UI_EDIT_CLOSE_OPERATION);
 export const uiEditSaveOperation = createAction<Operation>(constants.UI_EDIT_SAVE_OPERATION);
 export function saveOperation(operation: Operation) {
-    return async function (dispatch: Dispatch<{}>){
+    return async function (dispatch: Dispatch<any>){
         dispatch(uiEditSaveOperation(operation));
         if (operation.id === -1) // new operation
             dispatch(addOperation(operation));

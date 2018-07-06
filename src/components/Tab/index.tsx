@@ -1,18 +1,14 @@
 import * as React from 'react';
 
-import Paper from 'material-ui/Paper';
-import Card, { CardActions, CardContent, CardHeader } from 'material-ui/Card';
-import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import ModeEdit from 'material-ui-icons/ModeEdit';
-import DeleteForever from 'material-ui-icons/DeleteForever';
-import MoreVertIcon from 'material-ui-icons/MoreVert';
-import AccountBalanceWallet from 'material-ui-icons/AccountBalanceWallet';
-import Menu, { MenuItem } from 'material-ui/Menu';
-import Grid from 'material-ui/Grid';
-import Avatar from 'material-ui/Avatar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import ModeEdit from '@material-ui/icons/ModeEdit';
+import DeleteForever from '@material-ui/icons/DeleteForever';
+import AccountBalanceWallet from '@material-ui/icons/AccountBalanceWallet';
+import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
 import TabModel from 'models/Tab';
-import { blue } from 'material-ui/colors';
+import { blue } from '@material-ui/core/colors';
 
 // Redux
 import { Dispatch } from 'redux';
@@ -24,7 +20,7 @@ import ConfirmationDialog from 'components/ConfirmationDialog';
 
 interface Props {
     tab: TabModel;
-    dispatch: Dispatch<{}>;
+    dispatch: Dispatch<any>;
 }
 
 interface State {
@@ -110,12 +106,12 @@ class Tab extends React.Component<Props, State> {
                     </Avatar>
                 </Grid>
                 <Grid item>
-                    <Typography type="body2">
+                    <Typography variant="body2">
                         {tab.name}
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <Typography type="caption">
+                    <Typography variant="caption">
                         {tab.amount} €
                         </Typography>
                 </Grid>

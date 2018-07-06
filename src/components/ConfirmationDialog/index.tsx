@@ -1,13 +1,12 @@
 import * as React from 'react';
 
-import Dialog, {
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from 'material-ui/Dialog';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 
 interface Props{
     open: boolean;
@@ -36,7 +35,7 @@ export default class ConfirmationDialog extends React.Component<Props> {
         };
 
         return (
-            <Dialog open={open} onRequestClose={onClose}>
+            <Dialog open={open} onClose={onClose}>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -47,7 +46,7 @@ export default class ConfirmationDialog extends React.Component<Props> {
                     <Button onClick={onDeclineInternal} color="primary" autoFocus>
                         No
                     </Button>
-                    <Button onClick={onConfirmInternal} color="accent">
+                    <Button onClick={onConfirmInternal} color="secondary">
                         Yes
                 </Button>
                 </DialogActions>

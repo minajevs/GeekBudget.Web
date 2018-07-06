@@ -1,18 +1,18 @@
 import * as React from 'react';
 
-import { Route, Link, withRouter } from 'react-router-dom';
+import { Route, Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { StoreState } from 'types/index';
-import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
-import SettingsIcon from 'material-ui-icons/Settings';
-import { grey } from 'material-ui/colors';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import SettingsIcon from '@material-ui/icons/Settings';
+import { grey } from '@material-ui/core/colors';
 
-interface Props {
-    dispatch: Dispatch<{}>;
+type Props = {
+    dispatch: Dispatch<any>;
     store: StoreState;
-}
+} & RouteComponentProps<any>;
 
 const styles = {
     header: {
@@ -35,7 +35,7 @@ class Header extends React.Component<Props> {
             <Grid container justify="space-between" spacing={40} alignItems="center" style={styles.header}>
                 <Grid item>
                     <Link to="/" style={{ textDecoration: 'none' }}>
-                        <Typography type="display3" style={{ color: grey[50] }}>
+                        <Typography variant="display3" style={{ color: grey[50] }}>
                             GeekBudget
                         </Typography>
                     </Link>

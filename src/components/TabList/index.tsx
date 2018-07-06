@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Grid from 'material-ui/Grid';
+import Grid from '@material-ui/core/Grid';
 
 // Redux
 import { Dispatch } from 'redux';
@@ -16,10 +16,10 @@ import TabAddButton from 'components/TabAdd';
 import ConfirmationDialog from 'components/ConfirmationDialog';
 import TabEdit from 'components/TabEdit';
 
-interface Props {
-    dispatch: Dispatch<{}>;
+type Props = {
+    dispatch: Dispatch<any>;
     store: StoreState;
-}
+} & RouteComponentProps<any>;
 
 class TabList extends React.Component<Props> {
     constructor(props: Props) {

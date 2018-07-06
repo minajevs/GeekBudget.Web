@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
 import TabModel from 'models/Tab';
 import TabEdit from 'components/TabEdit';
@@ -12,12 +12,12 @@ import { tabActions } from 'actions';
 import { StoreState } from 'types/index';
 
 // Router
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-interface Props {
-    dispatch: Dispatch<{}>;
+type Props = {
+    dispatch: Dispatch<any>;
     store: StoreState;
-}
+} & RouteComponentProps<any>;
 
 interface State {
     openAddDialog: boolean;
@@ -38,7 +38,7 @@ class TabAddButton extends React.Component<Props, State> {
         return (
             <div>
                 <Button 
-                    fab 
+                    variant="fab"
                     aria-label="add" 
                     onClick={() => dispatch(tabActions.uiEditOpenTab(new TabModel()))}
                 >

@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
-import TextField from 'material-ui/TextField';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 
 import './styles.css';
 
@@ -72,7 +72,6 @@ class InlineEdit extends React.Component<Props, State> {
                 onBlur={this.onBlur}
                 InputProps={{
                     disableUnderline: !hovering && !editing,
-                    classes: {inkbar: 'custom-inkbar'},
                     onKeyDown: this.onKey
                 }}
                 margin="none"

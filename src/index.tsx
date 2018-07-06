@@ -33,11 +33,11 @@ const store: Store<StoreState> = createStore(
 );
 
 // Init app state
-store.dispatch(initialiseSettings());
+store.dispatch<any>(initialiseSettings());
 
-store.dispatch(getAllTabs())
+store.dispatch<any>(getAllTabs())
     .then(() => {
-        store.dispatch(getAllOperations());
+        store.dispatch<any>(getAllOperations());
     });
 
 ReactDOM.render(

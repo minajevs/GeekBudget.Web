@@ -1,9 +1,9 @@
 // Related
 import * as React from 'react';
-import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
-import { CircularProgress } from 'material-ui/Progress';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Redux
 import { Dispatch } from 'redux';
@@ -12,7 +12,7 @@ import { operationActions } from 'actions';
 import { StoreState } from 'types/index';
 
 // Router
-import { Route, Link, withRouter } from 'react-router-dom';
+import { Route, Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { push } from 'react-router-redux';
 
 // Components
@@ -21,10 +21,10 @@ import OperationList from 'components/OperationList';
 import OperationEdit from 'components/OperationEdit';
 import OperationModel from 'models/Operation';
 
-interface Props {
-    dispatch: Dispatch<{}>;
+type Props = {
+    dispatch: Dispatch<any>;
     store: StoreState;
-}
+} & RouteComponentProps<any>;
 
 class Operations extends React.Component<Props> {
     render() {
@@ -33,7 +33,7 @@ class Operations extends React.Component<Props> {
             <Grid container>
                 <Grid item xs={12}>
                     <Button 
-                        raised 
+                        variant="raised" 
                         onClick={() => dispatch(operationActions.uiEditOpenOperation(new OperationModel()))}
                     >
                         <AddIcon />

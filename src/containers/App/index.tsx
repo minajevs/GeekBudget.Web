@@ -1,7 +1,7 @@
 // React
 import * as React from 'react';
 // import { withStyles } from 'material-ui/styles'; TODO!!
-import Grid from 'material-ui/Grid';
+import Grid from '@material-ui/core/Grid';
 import './style.css';
 
 // Redux
@@ -11,7 +11,7 @@ import { tabActions } from 'actions';
 import { StoreState } from 'types/index';
 
 // Router
-import { Route, Link, withRouter } from 'react-router-dom';
+import { Route, Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
 // Components
 import TabModel from 'models/Tab';
@@ -21,10 +21,10 @@ import SettingsContainer from 'containers/Settings';
 import TabsContainer from 'containers/Tabs';
 import OperationsContainer from 'containers/Operations';
 
-interface Props {
-    dispatch: Dispatch<{}>;
+type Props = {
+    dispatch: Dispatch<any>;
     store: StoreState;
-}
+} & RouteComponentProps<any>;
 
 const logo = require('./logo.svg');
 

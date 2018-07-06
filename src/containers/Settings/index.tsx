@@ -1,22 +1,27 @@
 import * as React from 'react';
-import { withRouter } from 'react-router';
-import { connect, Dispatch } from 'react-redux';
+import { Dispatch } from 'redux';
+import { withRouter, RouteComponentProps } from 'react-router';
+import { connect, } from 'react-redux';
 import { StoreState } from 'types/index';
 import * as actions from 'actions/settingsActions';
 import { push } from 'react-router-redux';
 
-import Paper from 'material-ui/Paper';
-import Button from 'material-ui/Button';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 import InlineEdit from 'components/InlineEdit';
 import { getAllTabs } from 'actions/tabActions';
 import { getAllOperations } from 'actions/operationActions';
 
-interface Props {
-    dispatch: Dispatch<{}>;
+type Props = {
+    dispatch: Dispatch<any>;
     store: StoreState;
-}
+} & RouteComponentProps<any>;
 
 class Settings extends React.Component<Props> {
     onSave = async () => {
@@ -60,7 +65,7 @@ class Settings extends React.Component<Props> {
                         </TableBody>
                     </Table>
                 </Paper>
-                <Button raised color="accent" style={{float: 'right'}} onClick={this.onSave}>
+                <Button variant="raised" color="secondary" style={{float: 'right'}} onClick={this.onSave}>
                     Save
                 </Button>
             </div>

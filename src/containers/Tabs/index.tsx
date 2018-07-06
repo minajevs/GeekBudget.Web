@@ -1,9 +1,9 @@
 // Related
 import * as React from 'react';
-import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
-import { CircularProgress } from 'material-ui/Progress';
-import Paper from 'material-ui/Paper';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Paper from '@material-ui/core/Paper';
 
 // Redux
 import { Dispatch } from 'redux';
@@ -20,10 +20,10 @@ import TabEdit from 'components/TabEdit';
 
 import TabModel from 'models/Tab';
 
-interface Props {
-    dispatch: Dispatch<{}>;
+type Props = {
+    dispatch: Dispatch<any>;
     store: StoreState;
-}
+} & RouteComponentProps<any>;
 
 class Tabs extends React.Component<Props> {
     render() {

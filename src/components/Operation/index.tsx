@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { dateToString } from 'helpers';
 
-import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
-import EuroSymbol from 'material-ui-icons/EuroSymbol';
-import Avatar from 'material-ui/Avatar';
-import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import ModeEdit from 'material-ui-icons/ModeEdit';
-import DeleteForever from 'material-ui-icons/DeleteForever';
-import { green } from 'material-ui/colors';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import EuroSymbol from '@material-ui/icons/EuroSymbol';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import ModeEdit from '@material-ui/icons/ModeEdit';
+import DeleteForever from '@material-ui/icons/DeleteForever';
+import { green } from '@material-ui/core/colors';
 
 import OperationModel from 'models/Operation';
 import OperationEdit from 'components/OperationEdit';
@@ -24,7 +24,7 @@ import { StoreState } from 'types/index';
 
 interface Props {
     operation: OperationModel;
-    dispatch: Dispatch<{}>;
+    dispatch: Dispatch<any>;
     tabs: TabModel[];
 }
 
@@ -93,18 +93,18 @@ export class Operation extends React.Component<Props, State> {
                                 </Avatar>
                             </Grid>
                             <Grid item>
-                                <Typography type="body1" style={{fontWeight: 500}}>
+                                <Typography variant="body1" style={{fontWeight: 500}}>
                                     {fromTab.name} -> {toTab.name}
                                 </Typography>
-                                <Typography type="caption">
+                                <Typography variant="caption">
                                     {dateToString(operation.date)}
                                 </Typography>
                             </Grid>
                             <Grid item style={{ marginLeft: 'auto', marginRight: '16px', textAlign: 'right' }}>
-                                <Typography type="body2">
+                                <Typography variant="body2">
                                     {operation.amount} €
                                 </Typography>
-                                <Typography type="caption">
+                                <Typography variant="caption">
                                     {operation.comment}
                                 </Typography>
                             </Grid>
