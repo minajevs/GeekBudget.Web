@@ -1,52 +1,11 @@
-// React
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-
-// Router
-import createHistory from 'history/createHashHistory';
-import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
-
-// Redux
-import thunk from 'redux-thunk';
-import { Store, createStore, applyMiddleware, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
-import { StoreState, initialState } from './types';
-import { rootReducer } from 'reducers';
-import { initialiseSettings, updateAllSettings, setApplicationSetting, setSetting } from 'actions/settingsActions';
-import { getAllTabs, removeTab } from 'actions/tabActions';
-import { getAllOperations, addOperation, removeOperation } from 'actions/operationActions';
-
-// Other
-import App from 'containers/App';
-import registerServiceWorker from 'registerServiceWorker';
-import Api from 'api';
-
-// Setup router and redux-router
-const history = createHistory();
-const historyMiddleware = routerMiddleware(history);
-
-// Create redux store
-const store: Store<StoreState> = createStore(
-    rootReducer, 
-    initialState,
-    applyMiddleware(historyMiddleware, thunk)
-);
-
-// Init app state
-store.dispatch<any>(initialiseSettings());
-
-store.dispatch<any>(getAllTabs())
-    .then(() => {
-        store.dispatch<any>(getAllOperations());
-    });
+import App from './App';
+import './index.css';
+import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-    <Provider store={store}>
-        <ConnectedRouter history={history}> 
-            <App />
-        </ConnectedRouter>
-    </Provider>,
-    document.getElementById('root') as HTMLElement
+  <App />,
+  document.getElementById('root') as HTMLElement
 );
-
 registerServiceWorker();
