@@ -1,11 +1,19 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
-import registerServiceWorker from './registerServiceWorker';
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+
+import { createHashHistory } from 'history'
+import configureStore from './configureStore'
+import registerServiceWorker from './registerServiceWorker'
+
+import Root from './Root'
+import { initialState } from 'store' 
+
+const history = createHashHistory()
+const store = configureStore(history, initialState)
 
 ReactDOM.render(
-  <App />,
+  <Root history={history} store={store}/>,
   document.getElementById('root') as HTMLElement
-);
-registerServiceWorker();
+)
+
+registerServiceWorker()
