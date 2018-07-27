@@ -5,6 +5,7 @@ import { Dispatch } from 'redux'
 import { ApplicationState } from 'store'
 import { Error, State } from 'store/errors/types'
 import * as actions from 'store/errors/actions'
+import ErrorComponent from 'components/Error'
 
 type PropsFromState = {
     errorState: State
@@ -23,7 +24,7 @@ export class ErrorContainer extends React.Component<ContainerProps> {
         return (
             <>
             <div onClick={dismissError}>
-                Current error: {errorState.error === undefined ? '' : errorState.error.text}
+                Current error: {errorState.error === undefined ? '' : <ErrorComponent error={errorState.error}/>}
                 Past errors: {errorState.log.map(x => x.text)}
             </div>
             <button onClick={() => throwError({code: 1, text: 'Test error'})}>throw</button>

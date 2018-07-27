@@ -8,6 +8,8 @@ import registerServiceWorker from './registerServiceWorker'
 import Root from './Root'
 import { initialState } from 'store' 
 
+import 'typeface-roboto'
+
 const history = createHashHistory()
 const store = configureStore(history, initialState)
 

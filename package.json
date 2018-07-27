@@ -4,6 +4,7 @@
   "repository": "git@github.com:minajevs/GeekBudget.Web.git",
   "author": "Dmitrijs Minajevs <d3xx133@gmail.com>",
   "dependencies": {
+    "@material-ui/core": "^1.4.1",
     "connected-react-router": "^4.3.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -12,6 +13,7 @@
     "react-router-redux": "^4.0.8",
     "react-scripts-ts": "2.16.0",
     "redux": "^4.0.0",
+    "typeface-roboto": "^0.0.54",
     "typesafe-actions": "^2.0.4"
   },
   "scripts": {

@@ -5,7 +5,10 @@ import { Store } from 'redux'
 import { History } from 'history'
 
 import { ApplicationState } from 'store'
+
+import Theme from './Theme'
 import Routes from './Routes'
+
 import logo from './logo.svg'
 
 type OwnProps = {
@@ -19,7 +22,9 @@ class Root extends React.Component<OwnProps> {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <Routes />
+          <Theme>
+            <Routes />
+          </Theme>
         </ConnectedRouter>
       </Provider>
     );
