@@ -1,4 +1,4 @@
-import { action, createAction, createStandardAction } from 'typesafe-actions'
+import { createStandardAction } from 'typesafe-actions'
 
 import { ActionTypes, Error } from './types'
 

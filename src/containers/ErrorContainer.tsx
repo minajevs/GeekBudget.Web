@@ -23,8 +23,8 @@ export class ErrorContainer extends React.Component<ContainerProps> {
         const { errorState, throwError, dismissError } = this.props
         return (
             <>
-            <div onClick={dismissError}>
-                Current error: {errorState.error === undefined ? '' : <ErrorComponent error={errorState.error}/>}
+            <div>
+                Current error: <ErrorComponent error={errorState.error} onClick={() => dismissError()}/>
                 Past errors: {errorState.log.map(x => x.text)}
             </div>
             <button onClick={() => throwError({code: 1, text: 'Test error'})}>throw</button>

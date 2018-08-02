@@ -4,6 +4,8 @@ import { RouteComponentProps, Route, Switch } from 'react-router-dom'
 
 import { ApplicationState, ConnectedReduxProps } from 'store'
 
+import TabsContainer from 'containers/TabsContainer'
+
 // Separate state props + dispatch props to their own interfaces.
 interface PropsFromState {
   // loading: boolean
@@ -17,7 +19,9 @@ type AllProps = PropsFromState & RouteComponentProps<{}> & ConnectedReduxProps
 class MainPage extends React.Component<AllProps> {
   public render() {
     return (
-      <div>Main page</div>
+      <>
+        <TabsContainer />
+      </>
     )
   }
 }
