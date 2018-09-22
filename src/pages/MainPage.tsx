@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { ApplicationState, ConnectedReduxProps } from 'store'
 
 import TabsPanelContainer from 'containers/tabs/TabsPanelContainer'
+import OperationsPanelContainer from 'containers/operations/OperationsPanelContainer'
 
 // Separate state props + dispatch props to their own interfaces.
 interface PropsFromState {
@@ -19,6 +20,7 @@ class MainPage extends React.Component<AllProps> {
     return (
       <>
         <TabsPanelContainer />
+        <OperationsPanelContainer />
       </>
     )
   }

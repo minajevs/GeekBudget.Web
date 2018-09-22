@@ -2,7 +2,7 @@ import * as React from 'react'
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 
 import { Tab } from 'store/tabs/types'
-import TabCardForm from './TabCardForm';
+import TabCardForm from 'components/tabs/TabCardForm'
 
 const styles = (theme: Theme) => createStyles({
     tab: {
