@@ -1,10 +1,8 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { RouteComponentProps, Route, Switch } from 'react-router-dom'
-
 import { ApplicationState, ConnectedReduxProps } from 'store'
 
-import TabsContainer from 'containers/TabsContainer'
+import TabsPanelContainer from 'containers/tabs/TabsPanelContainer'
 
 // Separate state props + dispatch props to their own interfaces.
 interface PropsFromState {
@@ -14,13 +12,13 @@ interface PropsFromState {
 }
 
 // Combine both state + dispatch props - as well as any props we want to pass - in a union type.
-type AllProps = PropsFromState & RouteComponentProps<{}> & ConnectedReduxProps
+type AllProps = PropsFromState & ConnectedReduxProps
 
 class MainPage extends React.Component<AllProps> {
   public render() {
     return (
       <>
-        <TabsContainer />
+        <TabsPanelContainer />
       </>
     )
   }
