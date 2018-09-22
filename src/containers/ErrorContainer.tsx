@@ -23,11 +23,12 @@ export class ErrorContainer extends React.Component<ContainerProps> {
         const { errorState, throwError, dismissError } = this.props
         return (
             <>
-            <div>
-                Current error: <ErrorComponent error={errorState.error} onClick={() => dismissError()}/>
-                Past errors: {errorState.log.map(x => x.text)}
-            </div>
-            <button onClick={() => throwError({code: 1, text: 'Test error'})}>throw</button>
+                <div>
+                    Current error: <ErrorComponent error={errorState.error} onClick={() => dismissError()} />
+                    Past errors: {errorState.log.map(x => x.text)}
+                </div>
+                <button onClick={() => throwError({ code: 1, text: 'Test error' })}>throw</button>
+                <hr />
             </>
         )
     }
@@ -43,6 +44,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 export default connect(
-    mapStateToProps, 
+    mapStateToProps,
     mapDispatchToProps
 )(ErrorContainer)

@@ -9,7 +9,7 @@ export const enum ActionTypes {
     DISMISS = '@@errors/DISMISS',
 }
 
-export interface State{
+export interface State {
     readonly error?: Error
     readonly log: Error[]
 }

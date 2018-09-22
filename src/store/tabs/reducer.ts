@@ -10,17 +10,22 @@ export const initialState: State = {
 
 type Actions = ActionType<typeof actions>
 
-const reducer: Reducer<State> = (state = initialState, action: Actions ) => {
+const reducer: Reducer<State> = (state = initialState, action: Actions) => {
     switch (action.type) {
-        case getType(actions.getAllTabs.request):
+        // API
+        case getType(actions.getAll.request):
             return { ...state, loading: true }
-        case getType(actions.getAllTabs.response):
+        case getType(actions.getAll.response):
             return { ...state, loading: false, tabs: action.payload }
-
         case getType(actions.failure):
             return { ...state, loading: false }
+        // UI
+        case getType(actions.editOpen):
+            return { ...state, editing: action.payload }
+        case getType(actions.editClose):
+            return { ...state, editing: undefined }
 
-        default: 
+        default:
             return state
     }
 }

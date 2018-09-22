@@ -1,27 +1,75 @@
 import { ActionType } from 'typesafe-actions'
 
-import { State } from './types'
+import { State, Tab } from './types'
 import * as actions from './actions'
 import * as errorActions from 'store/errors/actions'
-import { Error as InternalError } from 'store/errors/types'
-import { createThunk } from 'utils'
+import { createThunk, PayloadCallback } from 'utils'
 
 import Api from 'api'
+import { ThunkDispatch } from 'redux-thunk';
 
 type Actions = ActionType<typeof actions>
 type ErrorActions = ActionType<typeof errorActions>
 
-export const getAllTabs = createThunk<State, Actions>(async (dispatch, _) => { 
-    dispatch(actions.getAllTabs.request())
+type AllowedActions = Actions | ErrorActions
 
-    try{
+export const getAll = createThunk<State, AllowedActions>(async (dispatch, _) => {
+    dispatch(actions.getAll.request())
+
+    try {
         const tabs = await Api.tabApi.getAll()
-        return dispatch(actions.getAllTabs.response(tabs))
+        return dispatch(actions.getAll.response(tabs))
     } catch (e) {
-        return dispatch(failure({text: e, code: 1}))
+        return handleError(e, dispatch)
     }
 })
 
-export const failure = createThunk<State, ErrorActions, InternalError>(async (dispatch, payload) => {
-    return dispatch(errorActions.throwError(payload))
+export const get = createThunk<State, AllowedActions, number>(async (dispatch, payload) => {
+    dispatch(actions.get.request(payload))
+
+    try {
+        const tab = await Api.tabApi.get(payload)
+        return dispatch(actions.get.response(tab))
+    } catch (e) {
+        return handleError(e, dispatch)
+    }
 })
+
+export const add = createThunk<State, AllowedActions, Tab>(async (dispatch, payload) => {
+    dispatch(actions.add.request(payload))
+
+    try {
+        const id = await Api.tabApi.add(payload)
+        return dispatch(actions.add.response(id))
+    } catch (e) {
+        return handleError(e, dispatch)
+    }
+})
+
+export const remove = createThunk<State, AllowedActions, number>(async (dispatch, payload) => {
+    dispatch(actions.remove.request(payload))
+
+    try {
+        await Api.tabApi.remove(payload)
+        return dispatch(actions.remove.response())
+    } catch (e) {
+        return handleError(e, dispatch)
+    }
+})
+
+export const update = createThunk<State, AllowedActions, { id: number, tab: Tab }>(async (dispatch, payload) => {
+    dispatch(actions.update.request(payload))
+
+    try {
+        await Api.tabApi.update(payload.id, payload.tab)
+        return dispatch(actions.update.response())
+    } catch (e) {
+        return handleError(e, dispatch)
+    }
+})
+
+const handleError = (errorText: string, dispatch: ThunkDispatch<State, undefined, AllowedActions>) => {
+    const error = { text: errorText, code: 1 }
+    dispatch(actions.failure(error))
+    return dispatch(errorActions.throwError(error))
+}

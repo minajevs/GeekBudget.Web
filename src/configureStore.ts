@@ -1,9 +1,9 @@
-import { Store, createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { History } from 'history'
-
-import { ApplicationState, rootReducer } from './store'
+import { applyMiddleware, compose, createStore, Store } from 'redux'
+import thunk from 'redux-thunk'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import { ApplicationState, rootReducer } from 'store'
 
 export default function configureStore(
   history: History,
@@ -12,8 +12,13 @@ export default function configureStore(
   const store = createStore(
     connectRouter(history)(rootReducer),
     initialState,
-    applyMiddleware(routerMiddleware(history), thunk)
+    composeWithDevTools(
+      applyMiddleware(
+        routerMiddleware(history),
+        thunk
+      )
+    )
   )
-  
+
   return store
 }

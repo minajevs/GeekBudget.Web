@@ -9,12 +9,13 @@ import MainPage from 'pages/MainPage'
 // Consider `react-loadable` when there are too many routes.
 const Routes: React.SFC = () => (
     <>
-    <div>HEADER</div>
-    <Switch>
-        <Route exact path="/" component={MainPage} />
-        <Route component={() => <div>Not Found</div>} />
-    </Switch>
-    <ErrorContainer />
+        <div>HEADER</div>
+        <hr />
+        <Switch>
+            <Route exact path="/" component={MainPage} />
+            <Route component={() => <div>Not Found</div>} />
+        </Switch>
+        <ErrorContainer />
     </>
 )
 
