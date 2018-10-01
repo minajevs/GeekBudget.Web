@@ -34,7 +34,6 @@ const TabsPanel: React.SFC<Props> = (props: Props & WithStyles<typeof styles>) =
             </div>
             <button onClick={getAll}>request</button>
             <button onClick={add}>+</button>
-            <hr />
         </>
     )
 }

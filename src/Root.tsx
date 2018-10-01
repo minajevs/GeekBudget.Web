@@ -8,6 +8,7 @@ import { ApplicationState } from 'store'
 
 import Theme from './Theme'
 import Routes from './Routes'
+import Master from 'pages/Master'
 
 import logo from './logo.svg'
 
@@ -23,7 +24,9 @@ class Root extends React.Component<OwnProps> {
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <Theme>
-            <Routes />
+            <Master>
+              <Routes />
+            </Master>
           </Theme>
         </ConnectedRouter>
       </Provider>

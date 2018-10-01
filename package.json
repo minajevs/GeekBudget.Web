@@ -5,6 +5,8 @@
   "author": "Dmitrijs Minajevs <d3xx133@gmail.com>",
   "dependencies": {
     "@material-ui/core": "^3.1.0",
+    "@material-ui/icons": "^3.0.1",
+    "@types/material-ui": "^0.21.5",
     "connected-react-router": "^4.3.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

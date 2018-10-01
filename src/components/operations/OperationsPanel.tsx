@@ -34,7 +34,6 @@ const OperationsPanel: React.SFC<Props> = (props: Props & WithStyles<typeof styl
             </div>
             <button onClick={getAll}>request</button>
             <button onClick={add}>+</button>
-            <hr />
         </>
     )
 }

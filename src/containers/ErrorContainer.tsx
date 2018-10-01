@@ -8,7 +8,7 @@ import * as actions from 'store/errors/actions'
 import ErrorComponent from 'components/Error'
 
 type PropsFromState = {
-    errorState: State
+    error?: Error
 }
 
 type PropsFromDispatch = {
@@ -20,22 +20,15 @@ type ContainerProps = PropsFromState & PropsFromDispatch
 
 export class ErrorContainer extends React.Component<ContainerProps> {
     public render() {
-        const { errorState, throwError, dismissError } = this.props
+        const { error, dismissError } = this.props
         return (
-            <>
-                <div>
-                    Current error: <ErrorComponent error={errorState.error} onClick={() => dismissError()} />
-                    Past errors: {errorState.log.map(x => x.text)}
-                </div>
-                <button onClick={() => throwError({ code: 1, text: 'Test error' })}>throw</button>
-                <hr />
-            </>
+            <ErrorComponent error={error} onClick={dismissError} />
         )
     }
 }
 
 const mapStateToProps = ({ errors }: ApplicationState) => ({
-    errorState: errors
+    error: errors.error
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
