@@ -13,7 +13,7 @@ type ErrorActions = ActionType<typeof errorActions>
 
 type AllowedActions = Actions | ErrorActions
 
-export const getAll = createThunk<State, AllowedActions>(async (dispatch, _) => {
+export const getAll = createThunk<State, AllowedActions>(async dispatch => {
     dispatch(actions.getAll.request())
 
     try {

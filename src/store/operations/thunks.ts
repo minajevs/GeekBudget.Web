@@ -3,7 +3,7 @@ import { ActionType } from 'typesafe-actions'
 import { State, Operation } from './types'
 import * as actions from './actions'
 import * as errorActions from 'store/errors/actions'
-import { createThunk, PayloadCallback } from 'utils'
+import { createThunk } from 'utils'
 
 import Api from 'api'
 import { ThunkDispatch } from 'redux-thunk';
@@ -13,7 +13,7 @@ type ErrorActions = ActionType<typeof errorActions>
 
 type AllowedActions = Actions | ErrorActions
 
-export const getAll = createThunk<State, AllowedActions>(async (dispatch, _) => {
+export const getAll = createThunk<State, AllowedActions>(async dispatch => {
     dispatch(actions.getAll.request())
 
     try {

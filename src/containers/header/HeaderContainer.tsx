@@ -23,6 +23,7 @@ type ContainerProps = PropsFromState & PropsFromDispatch
 export class HeaderContainer extends React.Component<ContainerProps> {
     public render() {
         const { openMenu, closeMenu } = this.props
+
         return (
             <HeaderComponent
                 onMenuClick={openMenu}
