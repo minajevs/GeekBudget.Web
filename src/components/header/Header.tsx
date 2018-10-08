@@ -34,7 +34,7 @@ const Header: React.SFC<AllProps> = (props: AllProps) => {
                     <IconButton color="inherit" aria-label="Menu" className={classes.menuButton} onClick={onClick}>
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="display1" color="inherit" className={classes.grow}>
+                    <Typography variant="h3" color="inherit" className={classes.grow}>
                         GeekBudget
                     </Typography>
                     {/* <Button color="inherit">Login</Button> */}

@@ -7,6 +7,7 @@ export interface Tab {
 }
 
 export const enum ActionTypes {
+    // API
     API_GETALL_REQUEST = '@@tabs/api/getall/REQUEST',
     API_GETALL_RESPONSE = '@@tabs/api/getall/RESPONSE',
 
@@ -23,9 +24,6 @@ export const enum ActionTypes {
     API_UPDATE_RESPONSE = '@@tabs/api/update/RESPONSE',
 
     API_ERROR = '@@tabs/api/FAILURE',
-
-    UI_EDIT_OPEN = '@@tabs/ui/edit/open',
-    UI_EDIT_CLOSE = '@@tabs/ui/edit/close'
 }
 
 export interface State {

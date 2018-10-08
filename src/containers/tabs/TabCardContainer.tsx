@@ -15,7 +15,6 @@ type PropsFromState = {
 }
 
 type PropsFromDispatch = {
-    editOpen: (id: number) => () => AnyAction
     remove: (id: number) => () => Promise<AnyAction>
     update: (id: number) => (tab: Tab) => Promise<AnyAction>
 }
@@ -28,12 +27,10 @@ type ComponentProps = {
 type ContainerProps = PropsFromState & PropsFromDispatch & ComponentProps
 
 const TabCardContainer: React.SFC<ContainerProps> = (props: ContainerProps) => {
-    const { tab, editing, id, editOpen, remove, update } = props
+    const { tab, editing, id, remove, update } = props
     return (
         <TabCard
             tab={tab}
-            editing={editing === id}
-            onEditOpen={editOpen(id)}
             onRemove={remove(id)}
             onSave={update(id)}
         />
@@ -41,14 +38,12 @@ const TabCardContainer: React.SFC<ContainerProps> = (props: ContainerProps) => {
 }
 
 const mapStateToProps = ({ tabs }: ApplicationState): PropsFromState => ({
-    editing: tabs.editing
+    
 })
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<State, undefined, AnyAction>): PropsFromDispatch => ({
-    editOpen: (id: number) => () => dispatch(actions.editOpen(id)),
     remove: (id: number) => () => dispatch(thunks.remove(id)),
     update: (id: number) => (tab: Tab) => {
-        dispatch(actions.editClose())
         return dispatch(thunks.update({ id, tab }))
     },
 })

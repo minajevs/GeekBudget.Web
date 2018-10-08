@@ -3,6 +3,9 @@ import { Tab } from 'store/tabs/types'
 const repo: Tab[] = [
     { id: 1, amount: 10, currency: 'EUR', name: 'Test tab1' },
     { id: 2, amount: 20, type: 2, currency: 'EUR', name: 'Test tab2' },
+    { id: 3, amount: 10, type: 1, currency: 'EUR', name: 'Test tab3' },
+    { id: 4, amount: 10, type: 1, currency: 'EUR', name: 'Exceptionaly long tab name' },
+    { id: 5, amount: 10, type: 1, currency: 'EUR', name: 'Test tab5' },
 ]
 
 export async function getAll(): Promise<Tab[]> {

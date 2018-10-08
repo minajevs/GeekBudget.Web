@@ -1,7 +1,9 @@
 import * as React from 'react'
-import { WithStyles, createStyles, Theme, withStyles, Button } from '@material-ui/core'
+import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 
-import { Tab } from 'store/tabs/types'
+import TabAddButton from 'components/tabs/TabAddButton'
+
+import Grid from '@material-ui/core/Grid'
 
 const styles = (theme: Theme) => createStyles({
     container: {
@@ -9,27 +11,46 @@ const styles = (theme: Theme) => createStyles({
         borderBottom: '1px solid',
     },
     tab: {
-        display: 'inline-block',
-        width: '100px',
-        border: '1px dotted'
+        width: 120
     }
 })
 
 type Props = {
-    tabs: Tab[]
-    children: React.ReactChild[]
+    tabs: React.ReactChild[]
     loading: boolean
     getAll: () => {}
     add: () => {}
 }
 
+const handleClick = () => console.log
+
 const TabsPanel: React.SFC<Props> = (props: Props & WithStyles<typeof styles>) => {
-    const { classes, children, tabs, loading, getAll, add } = props
+    const { classes, tabs, loading, getAll, add } = props
     return (
         <>
+            <Grid container justify="center">
+                <Grid item>
+                    <Grid
+                        container
+                        spacing={16}
+                        direction="row"
+                        alignItems="center"
+                        justify="center"
+                        className={classes.container}
+                    >
+                        {tabs.map((tab, i) => (
+                            <Grid item key={i} className={classes.tab}>
+                                {tab}
+                            </Grid>
+                        ))}
+                        <Grid item className={classes.tab}>
+                            <TabAddButton onClick={handleClick} />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
             <div>
                 <div>Current tabs: {tabs.length}</div>
-                {children}
                 <div>Loading: {JSON.stringify(loading)}</div>
             </div>
             <button onClick={getAll}>request</button>

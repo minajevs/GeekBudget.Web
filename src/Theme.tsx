@@ -16,8 +16,9 @@ const theme = createMuiTheme({
     primary: teal,
     secondary: deepOrange,
     background: {
-      default: blueGrey[50]
-    }
+      default: blueGrey[50],
+    },
+    
     // error: will use the default color
   },
 });

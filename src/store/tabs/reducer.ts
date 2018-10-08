@@ -19,11 +19,6 @@ const reducer: Reducer<State> = (state = initialState, action: Actions) => {
             return { ...state, loading: false, tabs: action.payload }
         case getType(actions.failure):
             return { ...state, loading: false }
-        // UI
-        case getType(actions.editOpen):
-            return { ...state, editing: action.payload }
-        case getType(actions.editClose):
-            return { ...state, editing: undefined }
 
         default:
             return state

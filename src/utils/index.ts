@@ -1,6 +1,5 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { AnyAction, Action, Dispatch } from 'redux'
-import 'reflect-metadata'
 
 export type PayloadCallback<State, Actions extends AnyAction, Payload = undefined> = (
     dispatch: ThunkDispatch<State, undefined, Actions>,

@@ -26,17 +26,17 @@ const TabsPanelContainer: React.SFC<ContainerProps> = (props: ContainerProps) =>
     const { tabs, loading, getAll, add } = props
     return (
         <TabsPanel
-            tabs={tabs}
+            tabs={mapTabsToCards(tabs)}
             loading={loading}
             getAll={getAll}
             add={add}
-        >
-            {tabs.map((tab, i) => (
-                <TabCardContainer tab={tab} id={i} key={i} />
-            ))}
-        </TabsPanel>
+        />
     )
 }
+
+const mapTabsToCards = (tabs: Tab[]) => tabs.map((tab, i) => (
+    <TabCardContainer tab={tab} id={i} key={i} />
+))
 
 const mapStateToProps = ({ tabs }: ApplicationState): PropsFromState => ({
     tabs: tabs.tabs,
