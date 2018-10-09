@@ -12,6 +12,9 @@ type OwnProps = {
 }
 
 const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  },
   palette: {
     primary: teal,
     secondary: deepOrange,

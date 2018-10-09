@@ -8,6 +8,7 @@
     "@material-ui/icons": "^3.0.1",
     "@types/material-ui": "^0.21.5",
     "connected-react-router": "^4.3.0",
+    "nswag": "^11.20.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",
@@ -24,7 +25,8 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "swagger-update-test": "nswag.gen.bat"
   },
   "devDependencies": {
     "@types/jest": "^23.3.0",

@@ -68,8 +68,9 @@ export const update = createThunk<State, AllowedActions, { id: number, tab: Tab 
     }
 })
 
-const handleError = (errorText: string, dispatch: ThunkDispatch<State, undefined, AllowedActions>) => {
-    const error = { text: errorText, code: 1 }
+const handleError = (e: Error, dispatch: ThunkDispatch<State, undefined, AllowedActions>) => {
+    console.log(e)
+    const error = { text: e.message, code: 1 }
     dispatch(actions.failure(error))
     return dispatch(errorActions.throwError(error))
 }
