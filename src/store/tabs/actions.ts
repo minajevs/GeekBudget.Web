@@ -30,3 +30,8 @@ export const update = {
 }
 
 export const failure = createStandardAction(ActionTypes.API_ERROR)<Error>()
+
+// UI
+
+export const addOpen = createStandardAction(ActionTypes.UI_ADD_OPEN)()
+export const addClose = createStandardAction(ActionTypes.UI_ADD_CLOSE)()

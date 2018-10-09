@@ -30,7 +30,7 @@ const Error: React.SFC<Props> = (props: Props & WithStyles<typeof styles>) => {
             horizontal: 'center'
         }}
         open={error !== undefined}
-        autoHideDuration={1000}
+        autoHideDuration={5000}
         onClose={onClick}
         message={<span>{getText(error)}</span>}
         action={[

@@ -6,6 +6,7 @@ import TabsPanelContainer from 'containers/tabs/TabsPanelContainer'
 import OperationsPanelContainer from 'containers/operations/OperationsPanelContainer'
 
 import MainPageComponent from 'components/pages/MainPage'
+import TabAddDialogContainer from 'containers/tabs/TabAddDialogContainer';
 
 // Separate state props + dispatch props to their own interfaces.
 interface PropsFromState {
@@ -24,6 +25,9 @@ const MainPage: React.SFC<AllProps> = (props: AllProps) => (
     }
     operationColumn={
       <OperationsPanelContainer />
+    }
+    children={
+        <TabAddDialogContainer />
     }
   />
 )

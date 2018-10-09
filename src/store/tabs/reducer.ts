@@ -5,6 +5,7 @@ import * as actions from './actions'
 
 export const initialState: State = {
     loading: false,
+    addOpen: false,
     tabs: []
 }
 
@@ -19,7 +20,12 @@ const reducer: Reducer<State> = (state = initialState, action: Actions) => {
             return { ...state, loading: false, tabs: action.payload }
         case getType(actions.failure):
             return { ...state, loading: false }
-
+        // UI
+        case getType(actions.addOpen):
+            return { ...state, addOpen: true }
+        case getType(actions.addClose):
+            return { ...state, addOpen: false }
+            
         default:
             return state
     }

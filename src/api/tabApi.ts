@@ -1,6 +1,6 @@
 import { Tab } from 'store/tabs/types'
 
-import { TabClient } from 'api/client'
+import { TabClient, TabVm } from 'api/client'
 
 import { API_URL } from 'api/common'
 
@@ -14,39 +14,37 @@ const repo: Tab[] = [
 
 const client = new TabClient(API_URL)
 
+const mapVmToTab = (vm: TabVm): Tab => ({
+    id: vm.id,
+    name: vm.name || '',
+    amount: vm.amount || 0,
+    currency: vm.currency || '',
+    type: vm.type
+})
+
 export async function getAll(): Promise<Tab[]> {
-    // await new Promise(resolve => setTimeout(resolve, 1000))
     const tabs = await client.getAll()
 
-    return tabs.map(vm => ({
-        id: vm.id,
-        amount: vm.amount,
-        name: vm.name,
-        currency: vm.currency,
-        type: vm.type
-    }) as Tab)
+    return tabs.map(mapVmToTab)
 }
 
 export async function get(id: number): Promise<Tab> {
-    // await new Promise(resolve => setTimeout(resolve, 1000))
-    // throw 'testing exception'
-    return repo[id]
+    const tab = await client.get(id)
+
+    return mapVmToTab(tab)
 }
 
 export async function add(tab: Tab): Promise<number> {
-    // await new Promise(resolve => setTimeout(resolve, 1000))
-
-    return repo.push({ ...tab, id: repo.length })
+    const vm = TabVm.fromJS(tab)
+    const newId = await client.add(vm)
+    
+    return newId
 }
 
 export async function remove(id: number): Promise<void> {
-    // await new Promise(resolve => setTimeout(resolve, 1000))
-
-    repo.splice(id, 1)
+    await client.remove(id)
 }
 
 export async function update(id: number, tab: Tab): Promise<void> {
-    // await new Promise(resolve => setTimeout(resolve, 1000))
-
-    repo[id] = tab
+    await client.update(id, TabVm.fromJS(tab))
 } 

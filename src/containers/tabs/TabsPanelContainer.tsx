@@ -6,6 +6,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { ApplicationState } from 'store'
 import { Tab, State } from 'store/tabs/types'
 import * as thunks from 'store/tabs/thunks'
+import * as actions from 'store/tabs/actions'
 
 import TabsPanel from 'components/tabs/TabsPanel'
 import TabCardContainer from 'containers/tabs/TabCardContainer'
@@ -17,19 +18,19 @@ type PropsFromState = {
 
 type PropsFromDispatch = {
     getAll: () => Promise<AnyAction>
-    add: () => Promise<AnyAction>
+    addClick: () => AnyAction
 }
 
 type ContainerProps = PropsFromState & PropsFromDispatch
 
 const TabsPanelContainer: React.SFC<ContainerProps> = (props: ContainerProps) => {
-    const { tabs, loading, getAll, add } = props
+    const { tabs, loading, getAll, addClick } = props
     return (
         <TabsPanel
             tabs={mapTabsToCards(tabs)}
             loading={loading}
             getAll={getAll}
-            add={add}
+            add={addClick}
         />
     )
 }
@@ -45,10 +46,7 @@ const mapStateToProps = ({ tabs }: ApplicationState): PropsFromState => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<State, undefined, AnyAction>): PropsFromDispatch => ({
     getAll: () => dispatch(thunks.getAll()),
-    add: () => {
-        dispatch(thunks.add({ name: 'Test', amount: 10, currency: 'USD', id: 1 }))
-        return dispatch(thunks.getAll())
-    },
+    addClick: () => dispatch(actions.addOpen()),
 })
 
 export default connect(

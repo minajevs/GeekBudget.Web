@@ -1,15 +1,9 @@
 import * as React from 'react'
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 
-import { Tab } from 'store/tabs/types'
-import TabCardForm from 'components/tabs/TabCardForm'
-
 import Chip from '@material-ui/core/Chip'
 import Avatar from '@material-ui/core/Avatar'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
 
-import grey from '@material-ui/core/colors/grey'
 import EditIcon from '@material-ui/icons/Edit'
 
 const styles = (theme: Theme) => createStyles({

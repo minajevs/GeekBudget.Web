@@ -24,10 +24,15 @@ export const enum ActionTypes {
     API_UPDATE_RESPONSE = '@@tabs/api/update/RESPONSE',
 
     API_ERROR = '@@tabs/api/FAILURE',
+
+    // UI
+    UI_ADD_OPEN = '@@tabs/ui/add/open',
+    UI_ADD_CLOSE = '@@tabs/ui/add/close',
 }
 
 export interface State {
     readonly loading: boolean
     readonly editing?: number
+    readonly addOpen: boolean
     readonly tabs: Tab[]
 }
