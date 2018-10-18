@@ -28,11 +28,14 @@ export const enum ActionTypes {
     // UI
     UI_ADD_OPEN = '@@tabs/ui/add/open',
     UI_ADD_CLOSE = '@@tabs/ui/add/close',
+
+    UI_EDIT_OPEN = '@@tabs/ui/edit/open',
+    UI_EDIT_CLOSE = '@@tabs/ui/edit/close',
 }
 
 export interface State {
     readonly loading: boolean
-    readonly editing?: number
+    readonly editTab: Tab | null
     readonly addOpen: boolean
     readonly tabs: Tab[]
 }

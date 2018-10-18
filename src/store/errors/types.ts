@@ -1,6 +1,7 @@
-export interface Error {
+export interface InternalError {
     code: number
     text: string
+    innerError?: Error
     data?: object
 }
 
@@ -10,6 +11,6 @@ export const enum ActionTypes {
 }
 
 export interface State {
-    readonly error?: Error
-    readonly log: Error[]
+    readonly error?: InternalError
+    readonly log: InternalError[]
 }

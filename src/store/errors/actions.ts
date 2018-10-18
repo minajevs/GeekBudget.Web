@@ -1,6 +1,6 @@
 import { createStandardAction } from 'typesafe-actions'
 
-import { ActionTypes, Error } from './types'
+import { ActionTypes, InternalError } from './types'
 
-export const throwError = createStandardAction(ActionTypes.THROW)<Error>()
+export const throwError = createStandardAction(ActionTypes.THROW)<InternalError>()
 export const dismissError = createStandardAction(ActionTypes.DISMISS)()

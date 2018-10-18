@@ -1,10 +1,11 @@
-import { Store } from 'redux'
+import { Store, AnyAction } from 'redux'
 import { ApplicationState } from 'store'
 import { Dispatch } from 'redux'
+import { ThunkDispatch } from 'redux-thunk'
 
 export interface InternalMenuItem {
     title: string
-    onClick?: (dispatch: Dispatch) => void
+    onClick?: (dispatch: Dispatch & ThunkDispatch<{}, undefined, AnyAction>) => void
 }
 
 export class MenuItem implements InternalMenuItem {

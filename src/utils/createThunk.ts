@@ -1,7 +1,7 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { AnyAction, Action, Dispatch } from 'redux'
 
-export type PayloadCallback<State, Actions extends AnyAction, Payload = undefined> = (
+export type PayloadCallback<State, Actions extends AnyAction, Payload> = (
     dispatch: ThunkDispatch<State, undefined, Actions>,
     payload: Payload /*, getState: () => State */
 ) => Promise<Action>
@@ -11,22 +11,33 @@ export type Callback<State, Actions extends AnyAction> = (
 ) => Promise<Action>
 
 type UnionCallback<State, Actions extends AnyAction, Payload> =
-    PayloadCallback<State, Actions, Payload>
+    Payload extends undefined
+    ? Callback<State, Actions>
+    : PayloadCallback<State, Actions, Payload> 
+
+// HACK to implement optional function argument. 
+// Read more: https://github.com/Microsoft/TypeScript/issues/12400
+type OptionalSpread<T> =
+    T extends undefined
+    ? []
+    : [T]
+
+function isPayload<Payload = undefined>(
+    payload: Payload
+): payload is Payload {
+    return typeof payload !== 'undefined'
+}
 
 export function createThunk<State, Actions extends AnyAction, Payload = undefined>(
     callback: UnionCallback<State, Actions, Payload>
-) {
-    // unfortunately, we can't specify Payload generic type as optional yet, 
-    // because typescript handles undefined and missing differently
-    // refer to https://github.com/Microsoft/TypeScript/issues/12400
-    // it will be possible to make payload parameter optional / mandatory depending on it's type
-    // but not now....
-    return function (payload?: Payload): ThunkAction<Promise<Action>, State, undefined, Actions> {
-        if (payload)
+): (...args: OptionalSpread<Payload>) => ThunkAction<Promise<Action>, State, undefined, Actions> {
+    return (...args: OptionalSpread<Payload>) => {
+        const payload = args[0]
+        if (isPayload(payload))
             return (dispatch: Dispatch | ThunkDispatch<State, undefined, Actions>, getState) =>
                 (callback as PayloadCallback<State, Actions, Payload>)(dispatch, payload /*, getState */)
         else
             return (dispatch: Dispatch | ThunkDispatch<State, undefined, Actions>, getState) =>
-                (callback as Callback<State, Actions>)(dispatch /*, getState */)
+                (callback as Callback<State, Actions>)(dispatch /*, getState */)   
     }
 }

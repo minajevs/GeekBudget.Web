@@ -1,2 +1,2 @@
 export * from 'utils/createThunk'
-export * from 'utils/mapTypes'
+export * from 'utils/customTypes'

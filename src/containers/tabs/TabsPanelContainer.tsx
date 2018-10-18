@@ -29,7 +29,6 @@ const TabsPanelContainer: React.SFC<ContainerProps> = (props: ContainerProps) =>
         <TabsPanel
             tabs={mapTabsToCards(tabs)}
             loading={loading}
-            getAll={getAll}
             add={addClick}
         />
     )

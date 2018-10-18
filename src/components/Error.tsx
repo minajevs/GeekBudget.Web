@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 
-import { Error } from 'store/errors/types'
+import { InternalError } from 'store/errors/types'
 
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
@@ -16,11 +16,13 @@ const styles = (theme: Theme) => createStyles({
 })
 
 type Props = {
-    error?: Error,
+    error?: InternalError,
     onClick: () => {}
 }
 
-const getText = (error?: Error) => error !== undefined ? error.text : ''
+const getText = (error?: InternalError) => error && error.text || ''
+
+const getStackTrace = (error?: InternalError) => error && error.innerError && error.innerError.stack || ''
 
 const Error: React.SFC<Props> = (props: Props & WithStyles<typeof styles>) => {
     const { classes, error, onClick } = props
@@ -32,7 +34,13 @@ const Error: React.SFC<Props> = (props: Props & WithStyles<typeof styles>) => {
         open={error !== undefined}
         autoHideDuration={5000}
         onClose={onClick}
-        message={<span>{getText(error)}</span>}
+        message={
+            <div>
+                <span>{getText(error)}</span>
+                <span>{getStackTrace(error)}</span>
+            </div>
+
+        }
         action={[
             <IconButton key="close" onClick={onClick} color="secondary">
                 <CloseIcon />

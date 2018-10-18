@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 
 import { ApplicationState } from 'store'
-import { Error, State } from 'store/errors/types'
+import { InternalError, State } from 'store/errors/types'
 import * as actions from 'store/errors/actions'
 import ErrorComponent from 'components/Error'
 
 type PropsFromState = {
-    error?: Error
+    error?: InternalError
 }
 
 type PropsFromDispatch = {
@@ -32,7 +32,7 @@ const mapStateToProps = ({ errors }: ApplicationState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    throwError: (error: Error) => dispatch(actions.throwError(error)),
+    throwError: (error: InternalError) => dispatch(actions.throwError(error)),
     dismissError: () => dispatch(actions.dismissError())
 })
 

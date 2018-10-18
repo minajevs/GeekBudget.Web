@@ -6,6 +6,8 @@ import MasterComponent from 'components/pages/Master'
 import HeaderContainer from 'containers/header/HeaderContainer'
 import ErrorContainer from 'containers/ErrorContainer'
 
+import Confirm from 'components/confirm/Confirm'
+
 type Props = {
     children: React.ReactNode
 }
@@ -15,6 +17,7 @@ const MainPage: React.SFC<Props> = (props: Props) => (
         <HeaderContainer />
         {props.children}
         <ErrorContainer />
+        <Confirm />
     </MasterComponent>
 )
 

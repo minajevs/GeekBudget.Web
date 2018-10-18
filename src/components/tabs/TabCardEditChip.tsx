@@ -9,7 +9,7 @@ import EditIcon from '@material-ui/icons/Edit'
 const styles = (theme: Theme) => createStyles({
     edit: {
         position: 'absolute',
-        top: 20,
+        top: 0,
         right: 0,
         width: 0,
     },
@@ -28,6 +28,7 @@ const styles = (theme: Theme) => createStyles({
 
 type Props = {
     hidden: boolean
+    onClick: () => void
 }
 
 type State = {
@@ -38,7 +39,7 @@ class TabCardEditChip extends React.Component<Props & WithStyles<typeof styles>,
     state: State = { hover: false }
     render() {
         const { hover } = this.state
-        const { classes, hidden } = this.props
+        const { classes, hidden, onClick } = this.props
 
         return (
             <Chip
@@ -52,6 +53,7 @@ class TabCardEditChip extends React.Component<Props & WithStyles<typeof styles>,
                 variant="default"
                 clickable
                 className={hidden ? classes.editHidden : classes.edit}
+                onClick={onClick}
                 onMouseEnter={this.handleEditMouseEnter}
                 onMouseLeave={this.handleEditMouseLeave}
             />

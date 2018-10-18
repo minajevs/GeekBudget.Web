@@ -1,6 +1,6 @@
 import { createStandardAction } from 'typesafe-actions'
 import { Operation, ActionTypes } from './types'
-import { Error } from 'store/errors/types'
+import { InternalError } from 'store/errors/types'
 
 // API
 
@@ -29,7 +29,7 @@ export const update = {
     response: createStandardAction(ActionTypes.API_UPDATE_RESPONSE)()
 }
 
-export const failure = createStandardAction(ActionTypes.API_ERROR)<Error>()
+export const failure = createStandardAction(ActionTypes.API_ERROR)<InternalError>()
 
 // UI
 

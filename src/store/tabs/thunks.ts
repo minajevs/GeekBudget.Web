@@ -29,6 +29,7 @@ export const get = createThunk<State, AllowedActions, number>(async (dispatch, p
 
     try {
         const tab = await Api.tabApi.get(payload)
+        if (tab === null) throw 'What should I do?'
         return dispatch(actions.get.response(tab))
     } catch (e) {
         return handleError(e, dispatch)
@@ -40,6 +41,7 @@ export const add = createThunk<State, AllowedActions, Tab>(async (dispatch, payl
 
     try {
         const id = await Api.tabApi.add(payload)
+        dispatch(getAll())
         return dispatch(actions.add.response(id))
     } catch (e) {
         return handleError(e, dispatch)
@@ -51,6 +53,7 @@ export const remove = createThunk<State, AllowedActions, number>(async (dispatch
 
     try {
         await Api.tabApi.remove(payload)
+        dispatch(getAll())
         return dispatch(actions.remove.response())
     } catch (e) {
         return handleError(e, dispatch)
@@ -62,6 +65,7 @@ export const update = createThunk<State, AllowedActions, { id: number, tab: Tab 
 
     try {
         await Api.tabApi.update(payload.id, payload.tab)
+        dispatch(getAll())
         return dispatch(actions.update.response())
     } catch (e) {
         return handleError(e, dispatch)
@@ -69,8 +73,7 @@ export const update = createThunk<State, AllowedActions, { id: number, tab: Tab 
 })
 
 const handleError = (e: Error, dispatch: ThunkDispatch<State, undefined, AllowedActions>) => {
-    console.log(e)
-    const error = { text: e.message, code: 1 }
+    const error = { text: e.message, code: 1, innerError: e }
     dispatch(actions.failure(error))
     return dispatch(errorActions.throwError(error))
 }

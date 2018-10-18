@@ -2,17 +2,9 @@ import { Tab } from 'store/tabs/types'
 
 import { TabClient, TabVm } from 'api/client'
 
-import { API_URL } from 'api/common'
+import { DEV_API_URL, TEST_API_URL } from 'api/common'
 
-const repo: Tab[] = [
-    { id: 1, amount: 10, currency: 'EUR', name: 'Test tab1' },
-    { id: 2, amount: 20, type: 2, currency: 'EUR', name: 'Test tab2' },
-    { id: 3, amount: 10, type: 1, currency: 'EUR', name: 'Test tab3' },
-    { id: 4, amount: 10, type: 1, currency: 'EUR', name: 'Exceptionaly long tab name' },
-    { id: 5, amount: 10, type: 1, currency: 'EUR', name: 'Test tab5' },
-]
-
-const client = new TabClient(API_URL)
+const client = new TabClient(TEST_API_URL)
 
 const mapVmToTab = (vm: TabVm): Tab => ({
     id: vm.id,
@@ -25,11 +17,15 @@ const mapVmToTab = (vm: TabVm): Tab => ({
 export async function getAll(): Promise<Tab[]> {
     const tabs = await client.getAll()
 
+    if (tabs === null) return []
+
     return tabs.map(mapVmToTab)
 }
 
-export async function get(id: number): Promise<Tab> {
+export async function get(id: number): Promise<Tab | null> {
     const tab = await client.get(id)
+
+    if (tab === null) return tab
 
     return mapVmToTab(tab)
 }

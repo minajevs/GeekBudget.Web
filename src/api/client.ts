@@ -6,17 +6,38 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-export class OperationClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    private baseUrl: string;
-    protected jsonParseReviver?: (key: string, value: any) => any = undefined;
+export class BaseClient {
+    protected apiKey: string = ''
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "http://localhost:55396";
+    transformOptions(options: RequestInit): Promise<RequestInit> {
+        options.headers = new Headers({
+            'Content-Type': 'application/json; charset=UTF-8',
+            'user-key': this.apiKey,
+        })
+
+        options.mode = 'cors'
+
+        return Promise.resolve(options)
     }
 
-    getAll(): Promise<OperationVm[]> {
+    auth = (key: string) => {
+        this.apiKey = key
+        return this
+    }
+}
+
+export class OperationClient extends BaseClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl ? baseUrl : "http://budget-api-test.herokuapp.com";
+    }
+
+    getAll(): Promise<OperationVm[] | null> {
         let url_ = this.baseUrl + "/api/Operation/GetAll";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -27,12 +48,14 @@ export class OperationClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processGetAll(_response);
         });
     }
 
-    protected processGetAll(response: Response): Promise<OperationVm[]> {
+    protected processGetAll(response: Response): Promise<OperationVm[] | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -51,10 +74,10 @@ export class OperationClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<OperationVm[]>(<any>null);
+        return Promise.resolve<OperationVm[] | null>(<any>null);
     }
 
-    get(filter: OperationFilter): Promise<OperationVm[]> {
+    get(filter: OperationFilter): Promise<OperationVm[] | null> {
         let url_ = this.baseUrl + "/api/Operation/Get";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -69,12 +92,14 @@ export class OperationClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processGet(_response);
         });
     }
 
-    protected processGet(response: Response): Promise<OperationVm[]> {
+    protected processGet(response: Response): Promise<OperationVm[] | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -93,7 +118,7 @@ export class OperationClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<OperationVm[]>(<any>null);
+        return Promise.resolve<OperationVm[] | null>(<any>null);
     }
 
     add(vm: OperationVm): Promise<number> {
@@ -111,7 +136,9 @@ export class OperationClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAdd(_response);
         });
     }
@@ -134,7 +161,7 @@ export class OperationClient {
         return Promise.resolve<number>(<any>null);
     }
 
-    remove(id: number): Promise<FileResponse> {
+    remove(id: number): Promise<FileResponse | null> {
         let url_ = this.baseUrl + "/api/Operation/Remove/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -148,12 +175,14 @@ export class OperationClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processRemove(_response);
         });
     }
 
-    protected processRemove(response: Response): Promise<FileResponse> {
+    protected processRemove(response: Response): Promise<FileResponse | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200 || status === 206) {
@@ -166,10 +195,10 @@ export class OperationClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse>(<any>null);
+        return Promise.resolve<FileResponse | null>(<any>null);
     }
 
-    update(id: number, vm: OperationVm): Promise<FileResponse> {
+    update(id: number, vm: OperationVm): Promise<FileResponse | null> {
         let url_ = this.baseUrl + "/api/Operation/Update/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -187,12 +216,14 @@ export class OperationClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processUpdate(_response);
         });
     }
 
-    protected processUpdate(response: Response): Promise<FileResponse> {
+    protected processUpdate(response: Response): Promise<FileResponse | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200 || status === 206) {
@@ -205,21 +236,22 @@ export class OperationClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse>(<any>null);
+        return Promise.resolve<FileResponse | null>(<any>null);
     }
 }
 
-export class TabClient {
+export class TabClient extends BaseClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
-    protected jsonParseReviver?: (key: string, value: any) => any = undefined;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "http://localhost:55396";
+        this.baseUrl = baseUrl ? baseUrl : "http://budget-api-test.herokuapp.com";
     }
 
-    getAll(): Promise<TabVm[]> {
+    getAll(): Promise<TabVm[] | null> {
         let url_ = this.baseUrl + "/api/Tab/GetAll";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -230,12 +262,14 @@ export class TabClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processGetAll(_response);
         });
     }
 
-    protected processGetAll(response: Response): Promise<TabVm[]> {
+    protected processGetAll(response: Response): Promise<TabVm[] | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -254,10 +288,10 @@ export class TabClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<TabVm[]>(<any>null);
+        return Promise.resolve<TabVm[] | null>(<any>null);
     }
 
-    get(id: number): Promise<TabVm> {
+    get(id: number): Promise<TabVm | null> {
         let url_ = this.baseUrl + "/api/Tab/Get/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -271,12 +305,14 @@ export class TabClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processGet(_response);
         });
     }
 
-    protected processGet(response: Response): Promise<TabVm> {
+    protected processGet(response: Response): Promise<TabVm | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -291,7 +327,7 @@ export class TabClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<TabVm>(<any>null);
+        return Promise.resolve<TabVm | null>(<any>null);
     }
 
     add(vm: TabVm): Promise<number> {
@@ -309,7 +345,9 @@ export class TabClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAdd(_response);
         });
     }
@@ -332,7 +370,7 @@ export class TabClient {
         return Promise.resolve<number>(<any>null);
     }
 
-    remove(id: number): Promise<FileResponse> {
+    remove(id: number): Promise<FileResponse | null> {
         let url_ = this.baseUrl + "/api/Tab/Remove/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -346,12 +384,14 @@ export class TabClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processRemove(_response);
         });
     }
 
-    protected processRemove(response: Response): Promise<FileResponse> {
+    protected processRemove(response: Response): Promise<FileResponse | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200 || status === 206) {
@@ -364,10 +404,10 @@ export class TabClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse>(<any>null);
+        return Promise.resolve<FileResponse | null>(<any>null);
     }
 
-    update(id: number, vm: TabVm): Promise<FileResponse> {
+    update(id: number, vm: TabVm): Promise<FileResponse | null> {
         let url_ = this.baseUrl + "/api/Tab/Update/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -385,12 +425,14 @@ export class TabClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processUpdate(_response);
         });
     }
 
-    protected processUpdate(response: Response): Promise<FileResponse> {
+    protected processUpdate(response: Response): Promise<FileResponse | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200 || status === 206) {
@@ -403,21 +445,22 @@ export class TabClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse>(<any>null);
+        return Promise.resolve<FileResponse | null>(<any>null);
     }
 }
 
-export class UserClient {
+export class UserClient extends BaseClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
-    protected jsonParseReviver?: (key: string, value: any) => any = undefined;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
         this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "http://localhost:55396";
+        this.baseUrl = baseUrl ? baseUrl : "http://budget-api-test.herokuapp.com";
     }
 
-    add(username: string): Promise<FileResponse> {
+    add(username: string | null | undefined): Promise<FileResponse | null> {
         let url_ = this.baseUrl + "/api/User/Add?";
         if (username !== undefined)
             url_ += "username=" + encodeURIComponent("" + username) + "&"; 
@@ -430,12 +473,14 @@ export class UserClient {
             }
         };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
             return this.processAdd(_response);
         });
     }
 
-    protected processAdd(response: Response): Promise<FileResponse> {
+    protected processAdd(response: Response): Promise<FileResponse | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200 || status === 206) {
@@ -448,18 +493,18 @@ export class UserClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse>(<any>null);
+        return Promise.resolve<FileResponse | null>(<any>null);
     }
 }
 
 export class OperationVm implements IOperationVm {
-    id: number;
-    comment?: string;
-    amount?: number;
-    currency?: string;
-    from?: number;
-    to?: number;
-    date: Date;
+    id!: number;
+    comment?: string | undefined;
+    amount?: number | undefined;
+    currency?: string | undefined;
+    from?: number | undefined;
+    to?: number | undefined;
+    date!: Date;
 
     constructor(data?: IOperationVm) {
         if (data) {
@@ -504,22 +549,22 @@ export class OperationVm implements IOperationVm {
 
 export interface IOperationVm {
     id: number;
-    comment?: string;
-    amount?: number;
-    currency?: string;
-    from?: number;
-    to?: number;
+    comment?: string | undefined;
+    amount?: number | undefined;
+    currency?: string | undefined;
+    from?: number | undefined;
+    to?: number | undefined;
     date: Date;
 }
 
 export class OperationFilter implements IOperationFilter {
-    id?: number;
-    comment?: string;
-    amount?: MinMaxFilterOfDecimal;
-    currency?: string;
-    from?: number;
-    to?: number;
-    date?: MinMaxFilterOfDateTime;
+    id?: number | undefined;
+    comment?: string | undefined;
+    amount?: MinMaxFilterOfDecimal | undefined;
+    currency?: string | undefined;
+    from?: number | undefined;
+    to?: number | undefined;
+    date?: MinMaxFilterOfDateTime | undefined;
 
     constructor(data?: IOperationFilter) {
         if (data) {
@@ -563,18 +608,18 @@ export class OperationFilter implements IOperationFilter {
 }
 
 export interface IOperationFilter {
-    id?: number;
-    comment?: string;
-    amount?: MinMaxFilterOfDecimal;
-    currency?: string;
-    from?: number;
-    to?: number;
-    date?: MinMaxFilterOfDateTime;
+    id?: number | undefined;
+    comment?: string | undefined;
+    amount?: MinMaxFilterOfDecimal | undefined;
+    currency?: string | undefined;
+    from?: number | undefined;
+    to?: number | undefined;
+    date?: MinMaxFilterOfDateTime | undefined;
 }
 
 export class MinMaxFilterOfDecimal implements IMinMaxFilterOfDecimal {
-    min: number;
-    max: number;
+    min!: number;
+    max!: number;
 
     constructor(data?: IMinMaxFilterOfDecimal) {
         if (data) {
@@ -613,8 +658,8 @@ export interface IMinMaxFilterOfDecimal {
 }
 
 export class MinMaxFilterOfDateTime implements IMinMaxFilterOfDateTime {
-    min: Date;
-    max: Date;
+    min!: Date;
+    max!: Date;
 
     constructor(data?: IMinMaxFilterOfDateTime) {
         if (data) {
@@ -653,11 +698,11 @@ export interface IMinMaxFilterOfDateTime {
 }
 
 export class TabVm implements ITabVm {
-    id: number;
-    type?: number;
-    name?: string;
-    amount?: number;
-    currency?: string;
+    id!: number;
+    type?: number | undefined;
+    name?: string | undefined;
+    amount?: number | undefined;
+    currency?: string | undefined;
 
     constructor(data?: ITabVm) {
         if (data) {
@@ -698,10 +743,10 @@ export class TabVm implements ITabVm {
 
 export interface ITabVm {
     id: number;
-    type?: number;
-    name?: string;
-    amount?: number;
-    currency?: string;
+    type?: number | undefined;
+    name?: string | undefined;
+    amount?: number | undefined;
+    currency?: string | undefined;
 }
 
 export interface FileResponse {
@@ -741,3 +786,14 @@ function throwException(message: string, status: number, response: string, heade
     else
         throw new SwaggerException(message, status, response, headers, null);
 }
+
+/* 
+    ========= NOTE: =========
+    After changing this class
+    you need to generate new 
+    client, because generated
+    client does not reference 
+    this file, but rather
+    prepends it. 
+    =========================
+*/

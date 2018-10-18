@@ -1,6 +1,6 @@
 import { createStandardAction } from 'typesafe-actions'
 import { Tab, ActionTypes } from 'store/tabs/types'
-import { Error } from 'store/errors/types'
+import { InternalError } from 'store/errors/types'
 
 // API
 
@@ -29,9 +29,12 @@ export const update = {
     response: createStandardAction(ActionTypes.API_UPDATE_RESPONSE)()
 }
 
-export const failure = createStandardAction(ActionTypes.API_ERROR)<Error>()
+export const failure = createStandardAction(ActionTypes.API_ERROR)<InternalError>()
 
 // UI
 
 export const addOpen = createStandardAction(ActionTypes.UI_ADD_OPEN)()
 export const addClose = createStandardAction(ActionTypes.UI_ADD_CLOSE)()
+
+export const editOpen = createStandardAction(ActionTypes.UI_EDIT_OPEN)<Tab>()
+export const editClose = createStandardAction(ActionTypes.UI_EDIT_CLOSE)()

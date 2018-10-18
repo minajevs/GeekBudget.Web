@@ -41,7 +41,7 @@ const OperationCardContainer: React.SFC<ContainerProps> = (props: ContainerProps
 }
 
 const mapStateToProps = ({ tabs }: ApplicationState): PropsFromState => ({
-    editing: tabs.editing
+    
 })
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<State, undefined, AnyAction>): PropsFromDispatch => ({

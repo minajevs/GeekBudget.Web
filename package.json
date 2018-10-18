@@ -4,7 +4,7 @@
   "repository": "git@github.com:minajevs/GeekBudget.Web.git",
   "author": "Dmitrijs Minajevs <d3xx133@gmail.com>",
   "dependencies": {
-    "@material-ui/core": "^3.1.0",
+    "@material-ui/core": "3.2.2",
     "@material-ui/icons": "^3.0.1",
     "@types/material-ui": "^0.21.5",
     "connected-react-router": "^4.3.0",
