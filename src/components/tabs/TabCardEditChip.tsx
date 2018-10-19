@@ -4,25 +4,24 @@ import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 import Chip from '@material-ui/core/Chip'
 import Avatar from '@material-ui/core/Avatar'
 
-import EditIcon from '@material-ui/icons/Edit'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
 
 const styles = (theme: Theme) => createStyles({
-    edit: {
+    wrapper: {
         position: 'absolute',
-        top: 0,
-        right: 0,
+        top: '1em',
+        right: '1em',
         width: 0,
     },
-    editHidden: {
+    hidden: {
         display: 'none'
     },
-    editAvatar: {
-        background: theme.palette.grey[300],
-        transition: theme.transitions.create('background')
-    },
-    editAvatarHover: {
-        background: theme.palette.grey[400],
-        transition: theme.transitions.create('background')
+    icon: {
+        color: theme.palette.grey[400],
+        transition: theme.transitions.create('color'),
+        '&:hover': {
+            color: theme.palette.grey[700]
+        }
     }
 })
 
@@ -31,38 +30,16 @@ type Props = {
     onClick: () => void
 }
 
-type State = {
-    hover: boolean
-}
-
-class TabCardEditChip extends React.Component<Props & WithStyles<typeof styles>, State>{
-    state: State = { hover: false }
-    render() {
-        const { hover } = this.state
-        const { classes, hidden, onClick } = this.props
-
-        return (
-            <Chip
-                avatar={
-                    <Avatar
-                        className={hover ? classes.editAvatarHover : classes.editAvatar}
-                    >
-                        <EditIcon />
-                    </Avatar>
-                }
-                variant="default"
-                clickable
-                className={hidden ? classes.editHidden : classes.edit}
+const TabCardEditChip: React.SFC<Props & WithStyles<typeof styles>> = props => {
+    const { classes, hidden, onClick } = props
+    return (
+        <div className={`${classes.wrapper} ${hidden ? classes.hidden : ''}`}>
+            <MoreVertIcon
+                className={classes.icon}
                 onClick={onClick}
-                onMouseEnter={this.handleEditMouseEnter}
-                onMouseLeave={this.handleEditMouseLeave}
             />
-
-        )
-    }
-
-    handleEditMouseEnter = () => this.setState({ hover: true })
-    handleEditMouseLeave = () => this.setState({ hover: false })
+        </div>
+    )
 }
 
 export default withStyles(styles)(TabCardEditChip)

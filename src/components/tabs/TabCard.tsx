@@ -7,6 +7,7 @@ import TabCardEditChip from 'components/tabs/TabCardEditChip'
 import Avatar from '@material-ui/core/Avatar'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 const styles = (theme: Theme) => createStyles({
     container: {
@@ -22,10 +23,9 @@ const styles = (theme: Theme) => createStyles({
         width: 110,
         textAlign: 'center',
         fontWeight: 700,
-        cursor: 'pointer',
-        '&:hover': {
-            textDecoration: 'underline'
-        }
+    },
+    tabNameRow: {
+        height: '1.5em'
     },
     edit: {
         position: 'absolute',
@@ -41,7 +41,6 @@ const styles = (theme: Theme) => createStyles({
         background: theme.palette.grey[400],
         transition: theme.transitions.create('background')
     }
-
 })
 
 type Props = {
@@ -50,42 +49,63 @@ type Props = {
     onEdit: () => void
 }
 
+type State = {
+    hover: boolean
+}
+
 type AllProps = Props & WithStyles<typeof styles>
 
-const TabCard: React.SFC<AllProps> = (props: AllProps) => {
-    const { classes, tab, onRemove, onEdit } = props
+class TabCard extends React.Component<AllProps, State> {
+    state: State = { hover: false }
+    private longTouchTimer: number
+    render() {
+        const { hover } = this.state
+        const { classes, tab, onRemove, onEdit } = this.props
 
-    return (
-        <Grid
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justify="center"
-            className={classes.container}
-        >
-            <Grid item>
-                <Typography
-                    variant="body1"
-                    className={classes.tabName}
-                    noWrap
-                    onClick={onEdit}
+        return (
+            <ClickAwayListener onClickAway={this.handleMouseLeave}>
+                <Grid
+                    container
+                    spacing={0}
+                    direction="column"
+                    alignItems="center"
+                    justify="center"
+                    className={classes.container}
+                    onMouseEnter={this.handleMouseEnter}
+                    onMouseLeave={this.handleMouseLeave}
+                    onTouchStart={this.handleTouchStart}
+                    onTouchEnd={this.handleTouchEnd}
                 >
-                    {tab.name}
-                </Typography>
-            </Grid>
-            <Grid item>
-                <Avatar className={classes.avatar}>
-                    {tab.id}
-                </Avatar>
-            </Grid>
-            <Grid item>
-                <Typography variant="subtitle1">
-                    {tab.amount} {tab.currency}
-                </Typography>
-            </Grid>
-        </Grid>
-    )
+                    <Grid item className={classes.tabNameRow}>
+                        <Typography
+                            variant="body1"
+                            className={classes.tabName}
+                            noWrap
+                        >
+                            {tab.name}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Avatar className={classes.avatar}>
+                            {tab.id}
+                        </Avatar>
+                        <TabCardEditChip hidden={!hover} onClick={onEdit} />
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="subtitle1">
+                            {tab.amount} {tab.currency}
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </ClickAwayListener>
+        )
+    }
+
+    handleMouseEnter = () => this.setState({ hover: true })
+    handleMouseLeave = () => this.setState({ hover: false })
+
+    handleTouchStart = () => this.longTouchTimer = window.setTimeout(this.handleMouseEnter, 1500)
+    handleTouchEnd = () => window.clearTimeout(this.longTouchTimer)
 }
 
 export default withStyles(styles)(TabCard)
