@@ -10,13 +10,20 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import Confirm from 'components/confirm/Confirm'
+import Confirm from 'containers/utilities/Confirm'
 
 const styles = (theme: Theme) => createStyles({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
     },
+    dialogActions: {
+        display: 'flex'
+    },
+    deleteBtn: {
+        marginRight: 'auto'
+    }
+
 })
 
 type Props = {
@@ -37,7 +44,7 @@ class TabEditDialog extends React.Component<Props & WithStyles<typeof styles>, S
             : { id: 0, amount: 0, currency: '', name: '' }
     }
     render() {
-        const { tab, onClose } = this.props
+        const { classes, tab, onClose } = this.props
 
         return (
             <Dialog
@@ -55,8 +62,8 @@ class TabEditDialog extends React.Component<Props & WithStyles<typeof styles>, S
                    {this.createInput('currency')}
                    {this.createInput('amount')}
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.confirmRemove}>
+                <DialogActions className={classes.dialogActions}>
+                    <Button onClick={this.confirmRemove} className={classes.deleteBtn}>
                         Delete tab
                     </Button>
                     <Button onClick={onClose}>

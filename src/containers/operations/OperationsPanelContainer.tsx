@@ -22,20 +22,26 @@ type PropsFromDispatch = {
 
 type ContainerProps = PropsFromState & PropsFromDispatch
 
-const TabsPanelContainer: React.SFC<ContainerProps> = (props: ContainerProps) => {
-    const { operations, loading, getAll, add } = props
-    return (
-        <OperationsPanel
-            operations={operations}
-            loading={loading}
-            getAll={getAll}
-            add={add}
-        >
-            {operations.map((operation, i) => (
-                <OperationCardContainer operation={operation} id={i} key={i} />
-            ))}
-        </OperationsPanel>
-    )
+class TabsPanelContainer extends React.Component<ContainerProps>{
+    componentDidMount() {
+        this.props.getAll()
+    }
+
+    render() {
+        const { operations, loading, getAll, add } = this.props
+        return (
+            <OperationsPanel
+                operations={operations}
+                loading={loading}
+                getAll={getAll}
+                add={add}
+            >
+                {operations.map((operation, i) => (
+                    <OperationCardContainer operation={operation} id={i} key={i} />
+                ))}
+            </OperationsPanel>
+        )
+    }
 }
 
 const mapStateToProps = ({ operations }: ApplicationState): PropsFromState => ({

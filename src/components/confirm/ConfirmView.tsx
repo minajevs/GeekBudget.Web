@@ -32,10 +32,8 @@ class Confirm extends React.Component<Props>{
             disableBackdropClick
             disableEscapeKeyDown
             maxWidth="xs"
-            aria-labelledby="confirmation-dialog"
             onClose={this.handleClose}
         >
-            <DialogTitle id="confirmation-dialog">Confirm</DialogTitle>
             <DialogContent>
                 <Typography>{question}</Typography>
             </DialogContent>

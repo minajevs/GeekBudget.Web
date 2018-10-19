@@ -6,7 +6,7 @@ import MasterComponent from 'components/pages/Master'
 import HeaderContainer from 'containers/header/HeaderContainer'
 import ErrorContainer from 'containers/ErrorContainer'
 
-import Confirm from 'components/confirm/Confirm'
+import Confirm from 'containers/utilities/Confirm'
 
 type Props = {
     children: React.ReactNode

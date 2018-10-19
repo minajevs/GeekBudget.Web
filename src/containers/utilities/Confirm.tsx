@@ -1,7 +1,6 @@
 import * as React from 'react'
-import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
-import ConfirmView from './ConfirmView';
-import { EventEmitter } from 'events';
+import ConfirmView from 'components/confirm/ConfirmView'
+import { EventEmitter } from 'events'
 
 type StaticState = {
     open: boolean
@@ -28,19 +27,21 @@ class Confirm extends React.Component{
         onDecline = () => {return},
         onClose = () => {return}
     ) => {
-        Confirm.staticState.open = true
-        Confirm.staticState.question = question
-        Confirm.staticState.onConfirm = onConfirm
-        Confirm.staticState.onDecline = onDecline
-        Confirm.staticState.onClose = onClose
+        Confirm.staticState = {
+            open: true,
+            question,
+            onConfirm,
+            onDecline,
+            onClose
+        }
 
-        Confirm.events.emit('show')
+        Confirm.events.emit('@@confirm/update')
     }
 
     constructor(props: {}){
         super(props)
         
-        Confirm.events.on('show', this.update)
+        Confirm.events.on('@@confirm/update', this.forceUpdate.bind(this))
     }
 
     render() {
@@ -54,14 +55,10 @@ class Confirm extends React.Component{
             />
         )
     }
-
-    update = () => {
-        this.forceUpdate()
-    }
     
     handleClose = () => {
-        Confirm.staticState.onClose()
         Confirm.staticState.open = false
+        Confirm.staticState.onClose()
         this.forceUpdate()
     }
 }
