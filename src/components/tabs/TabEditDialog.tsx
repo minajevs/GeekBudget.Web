@@ -1,7 +1,9 @@
 import * as React from 'react'
-import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
-import { Tab } from 'store/tabs/types'
+import { context } from 'context/tab/tabEditModal'
+import { context as tabContext } from 'context/tab/tabs'
+import { Tab, TabType } from 'context/tab/types'
 
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -12,7 +14,20 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Confirm from 'containers/utilities/Confirm'
 
-const styles = (theme: Theme) => createStyles({
+import TabTypeDropdown from 'components/common/TabTypeDropdown'
+
+import Select from '@material-ui/core/Select'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+
+require('react-dom');
+// @ts-ignore
+window.React2 = require('react');
+// @ts-ignore
+console.log(window.React1 === window.React2);
+
+const useStyles = makeStyles(theme => ({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
@@ -24,103 +39,95 @@ const styles = (theme: Theme) => createStyles({
         marginRight: 'auto'
     }
 
-})
+}))
 
-type Props = {
-    tab: Tab | null
-    onSave: (id: number, tab: Tab) => void
-    onRemove: (id: number) => void
-    onClose: () => void
+const defaultTab: Tab = {
+    id: 0,
+    name: '',
+    amount: 0,
+    currency: 'EUR',
+    type: 1
 }
 
-type State = {
-    tab: Tab
-}
+const TabEditDialog: React.FC = (props) => {
+    const classes = useStyles()
 
-class TabEditDialog extends React.Component<Props & WithStyles<typeof styles>, State>{
-    state: State = {
-        tab: this.props.tab !== null
-            ? { ...this.props.tab }
-            : { id: 0, amount: 0, currency: '', name: '' }
-    }
-    render() {
-        const { classes, tab, onClose } = this.props
+    const store = React.useContext(context)
+    const tabStore = React.useContext(tabContext)
 
+    const [state, setState] = React.useState(defaultTab)
+
+    React.useEffect(() => {
+        setState(store.tab || defaultTab)
+    }, [store.tab])
+
+    const createInput = (key: keyof Tab, label: string = `Tab ${key}`) => {
         return (
-            <Dialog
-                open={tab !== null}
-                onClose={onClose}
-                aria-labelledby="form-dialog-title"
-            >
-                <DialogTitle id="form-dialog-title">Edit "{tab !== null ? tab.name : ''}"</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Please fill all the necessary fields
-                    </DialogContentText>
-                   {this.createInput('name')}
-                   {this.createInput('type')}
-                   {this.createInput('currency')}
-                   {this.createInput('amount')}
-                </DialogContent>
-                <DialogActions className={classes.dialogActions}>
-                    <Button onClick={this.confirmRemove} className={classes.deleteBtn}>
-                        Delete tab
-                    </Button>
-                    <Button onClick={onClose}>
-                        Cancel
-                    </Button>
-                    <Button onClick={this.handleSave} color="primary">
-                        Save
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <TextField
+                autoFocus
+                className={classes.textField}
+                margin="dense"
+                id={key}
+                label={label}
+                onChange={({ currentTarget }) => setState(prev => ({ ...prev, [key]: currentTarget.value }))}
+                value={state[key]}
+                type={
+                    typeof state[key] === 'number'
+                        ? 'number'
+                        : 'text'
+                }
+            />
         )
     }
 
-    createInput = (key: keyof Tab, label: string = `Tab ${key}`) => (
-        <TextField
-            autoFocus
-            className={this.props.classes.textField}
-            margin="dense"
-            id={key}
-            label={label}
-            onChange={this.handleChange(key)}
-            value={this.state.tab[key]}
-            type={
-                typeof this.state.tab[key] === 'number'
-                    ? 'number'
-                    : 'text'
-            }
-        />
-    )
-
-    handleChange = (key: keyof Tab) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ tab: { ...this.state.tab, [key]: event.currentTarget.value } })
-    }
-
-    confirmRemove = () => {
+    const confirmRemove = () => {
         Confirm.show(
             'Do you really want to delete this tab?',
-            this.handleRemove
+            handleRemove
         )
     }
 
-    handleRemove = () => {
-        this.props.onRemove(this.state.tab.id)
-        this.props.onClose()
+    const handleRemove = () => {
+        if (store.tab == null) return
+        tabStore.removeTab(store.tab.id)
+        store.closeModal()
     }
 
-    handleSave = () => {
-        this.props.onSave(this.state.tab.id, this.state.tab)
-        this.props.onClose()
+    function handleSave() {
+        // if (store.tab == null) return
+        tabStore.saveTab(store.tab!.id, state)
+        store.closeModal()
     }
 
-    componentWillReceiveProps = (newProps: Props) => {
-        const { tab } = newProps
-        if (tab !== null)
-            this.setState({tab: {...tab}})
-    }
-
+    return (
+        <Dialog
+            open={store.tab !== null}
+            onClose={store.closeModal}
+            aria-labelledby="form-dialog-title"
+        >
+            <DialogTitle id="form-dialog-title">Edit "{state.name}"</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    Please fill all the necessary fields
+                    </DialogContentText>
+                {createInput('name')}
+                <TabTypeDropdown defaultValue={state.type} onChange={console.log} />
+                {createInput('currency')}
+                {createInput('amount')}
+            </DialogContent>
+            <DialogActions className={classes.dialogActions}>
+                <Button onClick={confirmRemove} className={classes.deleteBtn}>
+                    Delete tab
+                    </Button>
+                <Button onClick={store.closeModal}>
+                    Cancel
+                    </Button>
+                <Button onClick={handleSave} color="primary">
+                    Save
+                    </Button>
+            </DialogActions>
+        </Dialog>
+    )
 }
 
-export default withStyles(styles)(TabEditDialog)
+export default TabEditDialog

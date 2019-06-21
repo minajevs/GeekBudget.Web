@@ -1,11 +1,15 @@
 import * as React from 'react'
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 
+import { context as menuContext } from 'context/header/menu'
+
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
+
+import MenuComponent from 'components/header/HeaderMenu'
 
 const styles = (theme: Theme) => createStyles({
     grow: {
@@ -17,21 +21,23 @@ const styles = (theme: Theme) => createStyles({
     }
 })
 
-type Props = {
-    onMenuClick: (anchor: HTMLElement) => void
-    menu: React.ReactNode
-}
+const onMenuClick = (callback: (element: HTMLElement) => void) => (event: React.MouseEvent<HTMLElement>) =>
+    callback(event.currentTarget)
 
-type AllProps = Props & WithStyles<typeof styles>
+const Header: React.FC<WithStyles<typeof styles>> = props => {
+    const { classes } = props
 
-const Header: React.SFC<AllProps> = (props: AllProps) => {
-    const { classes, onMenuClick, menu } = props
-    const onClick = (event: React.MouseEvent<HTMLElement>) => onMenuClick(event.currentTarget)
+    const menuStore = React.useContext(menuContext)
+
     return (
         <>
             <AppBar position="static" color="primary">
                 <Toolbar>
-                    <IconButton color="inherit" aria-label="Menu" className={classes.menuButton} onClick={onClick}>
+                    <IconButton
+                        color="inherit"
+                        aria-label="Menu"
+                        className={classes.menuButton}
+                        onClick={onMenuClick(menuStore.open)}>
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h3" color="inherit" className={classes.grow}>
@@ -39,7 +45,7 @@ const Header: React.SFC<AllProps> = (props: AllProps) => {
                     </Typography>
                     {/* <Button color="inherit">Login</Button> */}
                 </Toolbar>
-                {menu}
+                <MenuComponent />
             </AppBar>
         </>
     )

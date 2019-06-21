@@ -1,12 +1,13 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
-import { ApplicationState, ConnectedReduxProps } from 'store'
 
 import MasterComponent from 'components/pages/Master'
-import HeaderContainer from 'containers/header/HeaderContainer'
-import ErrorContainer from 'containers/ErrorContainer'
+import Header from 'components/header/Header'
 
 import Confirm from 'containers/utilities/Confirm'
+import Error from 'components/common/Error'
+
+import { Provider as MenuProvider } from 'context/header/menu'
+import { Provider as ErrorProvider } from 'context/errors'
 
 type Props = {
     children: React.ReactNode
@@ -14,14 +15,16 @@ type Props = {
 
 const MainPage: React.SFC<Props> = (props: Props) => (
     <MasterComponent>
-        <HeaderContainer />
-        {props.children}
-        <ErrorContainer />
-        <Confirm />
+        <ErrorProvider>
+            <MenuProvider>
+                <Header />
+            </MenuProvider>
+
+            {props.children}
+            <Error />
+            <Confirm />
+        </ErrorProvider>
     </MasterComponent>
 )
 
-const mapStateToProps = (state: ApplicationState) => ({
-})
-
-export default connect(mapStateToProps)(MainPage)
+export default MainPage

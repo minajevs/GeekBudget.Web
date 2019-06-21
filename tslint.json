@@ -13,7 +13,6 @@
     "align": [
       true,
       "parameters",
-      "arguments",
       "statements"
     ],
     "ban": false,
@@ -48,7 +47,7 @@
       "static-before-instance",
       "variables-before-functions"
     ],
-    "no-any": true,
+    "no-any": false,
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [
@@ -62,7 +61,7 @@
     ],
     "no-consecutive-blank-lines": true,
     "no-construct": true,
-    "no-debugger": true,
+    "no-debugger": false,
     "no-duplicate-variable": true,
     "no-empty": true,
     "no-eval": true,
@@ -95,7 +94,6 @@
     ],
     "typedef": [
       true,
-      "parameter",
       "property-declaration"
     ],
     "typedef-whitespace": [

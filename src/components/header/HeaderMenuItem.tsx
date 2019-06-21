@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 
-import { MenuItem } from 'store/menu/types'
+import { MenuItem } from 'context/header/types'
 
 import { default as MenuItemComponent } from '@material-ui/core/MenuItem'
 

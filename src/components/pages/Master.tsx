@@ -12,7 +12,7 @@ type Props = {
     children: React.ReactNode
 }
 
-const Master: React.SFC<Props> = (props: Props & WithStyles<typeof styles>) => {
+const Master: React.SFC<Props & WithStyles<typeof styles>> = (props: Props & WithStyles<typeof styles>) => {
     const { classes, children } = props
     return (
         <div className={classes.master}>

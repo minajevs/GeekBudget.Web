@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 
-import { InternalError } from 'store/errors/types'
+import { InternalError, context } from 'context/errors'
 
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
@@ -15,34 +15,30 @@ const styles = (theme: Theme) => createStyles({
     }
 })
 
-type Props = {
-    error?: InternalError,
-    onClick: () => {}
-}
+const getText = (error: InternalError | null) => error && error.text || ''
 
-const getText = (error?: InternalError) => error && error.text || ''
+const getStackTrace = (error: InternalError | null) => error && error.innerError && error.innerError.stack || ''
 
-const getStackTrace = (error?: InternalError) => error && error.innerError && error.innerError.stack || ''
+const Error: React.FC<WithStyles<typeof styles>> = (props: WithStyles<typeof styles>) => {
+    const { classes } = props
+    const store = React.useContext(context)
 
-const Error: React.SFC<Props> = (props: Props & WithStyles<typeof styles>) => {
-    const { classes, error, onClick } = props
     return <Snackbar
         anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'center'
         }}
-        open={error !== undefined}
+        open={store.error !== null}
         autoHideDuration={5000}
-        onClose={onClick}
+        onClose={store.dismiss}
         message={
             <div>
-                <span>{getText(error)}</span>
-                <span>{getStackTrace(error)}</span>
+                <span>{getText(store.error).toString()}</span>
+                <span>{getStackTrace(store.error).toString()}</span>
             </div>
-
         }
         action={[
-            <IconButton key="close" onClick={onClick} color="secondary">
+            <IconButton key="close" onClick={store.dismiss} color="secondary">
                 <CloseIcon />
             </IconButton>
         ]}

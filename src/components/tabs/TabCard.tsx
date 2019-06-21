@@ -1,7 +1,10 @@
 import * as React from 'react'
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 
-import { Tab } from 'store/tabs/types'
+import { context } from 'context/tab/tabEditModal'
+
+import { Tab } from 'context/tab/types'
+
 import TabCardEditChip from 'components/tabs/TabCardEditChip'
 
 import Avatar from '@material-ui/core/Avatar'
@@ -45,67 +48,59 @@ const styles = (theme: Theme) => createStyles({
 
 type Props = {
     tab: Tab
-    onRemove: () => void
-    onEdit: () => void
-}
-
-type State = {
-    hover: boolean
 }
 
 type AllProps = Props & WithStyles<typeof styles>
 
-class TabCard extends React.Component<AllProps, State> {
-    state: State = { hover: false }
-    private longTouchTimer: number
-    render() {
-        const { hover } = this.state
-        const { classes, tab, onRemove, onEdit } = this.props
+let longTouchTimer = 0
 
-        return (
-            <ClickAwayListener onClickAway={this.handleMouseLeave}>
-                <Grid
-                    container
-                    spacing={0}
-                    direction="column"
-                    alignItems="center"
-                    justify="center"
-                    className={classes.container}
-                    onMouseEnter={this.handleMouseEnter}
-                    onMouseLeave={this.handleMouseLeave}
-                    onTouchStart={this.handleTouchStart}
-                    onTouchEnd={this.handleTouchEnd}
-                >
-                    <Grid item className={classes.tabNameRow}>
-                        <Typography
-                            variant="body1"
-                            className={classes.tabName}
-                            noWrap
-                        >
-                            {tab.name}
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Avatar className={classes.avatar}>
-                            {tab.id}
-                        </Avatar>
-                        <TabCardEditChip hidden={!hover} onClick={onEdit} />
-                    </Grid>
-                    <Grid item>
-                        <Typography variant="subtitle1">
-                            {tab.amount} {tab.currency}
-                        </Typography>
-                    </Grid>
+const TabCard: React.FC<AllProps> = props => {
+    const [hover, setHover] = React.useState(false)
+    const { classes, tab } = props
+    const store = React.useContext(context)
+
+    const openEdit = () => store.openModal(tab)
+
+    const handleTouchStart = () => longTouchTimer = window.setTimeout(() => setHover(true), 1500)
+    const handleTouchEnd = () => window.clearTimeout(longTouchTimer)
+
+    return (
+        <ClickAwayListener onClickAway={() => setHover(false)} >
+            <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justify="center"
+                className={classes.container}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+            >
+                <Grid item className={classes.tabNameRow}>
+                    <Typography
+                        variant="body1"
+                        className={classes.tabName}
+                        noWrap
+                    >
+                        {tab.name}
+                    </Typography>
                 </Grid>
-            </ClickAwayListener>
-        )
-    }
-
-    handleMouseEnter = () => this.setState({ hover: true })
-    handleMouseLeave = () => this.setState({ hover: false })
-
-    handleTouchStart = () => this.longTouchTimer = window.setTimeout(this.handleMouseEnter, 1500)
-    handleTouchEnd = () => window.clearTimeout(this.longTouchTimer)
+                <Grid item>
+                    <Avatar className={classes.avatar}>
+                        {tab.id}
+                    </Avatar>
+                    <TabCardEditChip hidden={!hover} onClick={openEdit} />
+                </Grid>
+                <Grid item>
+                    <Typography variant="subtitle1">
+                        {tab.amount} {tab.currency}
+                    </Typography>
+                </Grid>
+            </Grid>
+        </ClickAwayListener >
+    )
 }
 
 export default withStyles(styles)(TabCard)

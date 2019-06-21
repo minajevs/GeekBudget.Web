@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 
-import { Tab } from 'store/tabs/types'
-import { MappedPartial } from 'utils'
+import { Tab } from 'context/tab/types'
+import { context } from 'context/tab/tabAddModal'
+import { context as tabContext } from 'context/tab/tabs'
 
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -11,7 +12,6 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { number } from 'prop-types';
 
 const styles = (theme: Theme) => createStyles({
     textField: {
@@ -20,84 +20,72 @@ const styles = (theme: Theme) => createStyles({
     },
 })
 
-type Props = {
-    open: boolean
-    onSave: (tab: Tab) => void
-    onClose: () => void
+const defaultTab: Tab = {
+    id: 0,
+    name: '',
+    amount: 0,
+    currency: 'EUR',
+    type: 1
 }
 
-type State = {
-    tab: Tab
-}
+const TabAddDialog: React.FC<WithStyles<typeof styles>> = (props) => {
+    const [state, setState] = React.useState(defaultTab)
 
-class TabAddDialog extends React.Component<Props & WithStyles<typeof styles>, State>{
-    state: State = {
-        tab: {
-            id: 0,
-            name: '',
-            amount: 0,
-            currency: 'EUR',
-            type: 1
-        }
-    }
-    render() {
-        const { tab } = this.state
-        const { classes, open, onSave, onClose } = this.props
+    const { classes } = props
 
-        return (
-            <Dialog
-                open={open}
-                onClose={onClose}
-                aria-labelledby="form-dialog-title"
-            >
-                <DialogTitle id="form-dialog-title">Add new Tab</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Please fill all the necessary fields
-                    </DialogContentText>
-                   {this.createInput('name')}
-                   {this.createInput('type')}
-                   {this.createInput('currency')}
-                   {this.createInput('amount')}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClose}>
-                        Cancel
-                    </Button>
-                    <Button onClick={this.handleSave} color="primary">
-                        Add
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        )
-    }
+    const store = React.useContext(context)
+    const tabStore = React.useContext(tabContext)
 
-    createInput = (key: keyof Tab, label: string = `Tab ${key}`) => (
-        <TextField
+    const createInput = (key: keyof Tab, label: string = `Tab ${key}`) => {
+        return (<TextField
             autoFocus
-            className={this.props.classes.textField}
+            className={props.classes.textField}
             margin="dense"
             id={key}
             label={label}
-            onChange={this.handleChange(key)}
-            value={this.state.tab[key]}
+            onChange={({ currentTarget }) => setState(prev => ({ ...prev, [key]: currentTarget.value }))}
+            value={state[key] || ''}
             type={
-                typeof this.props[key] === 'number'
+                typeof props[key] === 'number'
                     ? 'number'
                     : 'text'
             }
         />
+        )
+    }
+
+    const handleSave = () => {
+        tabStore.addTab(state)
+        store.closeModal()
+        setState(defaultTab)
+    }
+
+    return (
+        <Dialog
+            open={store.isOpen}
+            onClose={store.closeModal}
+            aria-labelledby="form-dialog-title"
+        >
+            <DialogTitle id="form-dialog-title">Add new Tab</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    Please fill all the necessary fields
+                    </DialogContentText>
+                {createInput('name')}
+                {createInput('type')}
+                {createInput('currency')}
+                {createInput('amount')}
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={store.closeModal}>
+                    Cancel
+                    </Button>
+                <Button onClick={handleSave} color="primary">
+                    Add
+                    </Button>
+            </DialogActions>
+        </Dialog>
     )
-
-    handleChange = (key: keyof Tab) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ tab: { ...this.state.tab, [key]: event.currentTarget.value } })
-    }
-
-    handleSave = () => {
-        this.props.onSave(this.state.tab)
-        this.props.onClose()
-    }
-
 }
 
 export default withStyles(styles)(TabAddDialog)

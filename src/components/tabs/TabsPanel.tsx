@@ -1,39 +1,45 @@
 import * as React from 'react'
-import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
+
+import TabCard from 'components/tabs/TabCard'
+import { Tab } from 'context/tab/types'
+import { context as tabsContext } from 'context/tab/tabs'
+import { context as tabAddModalContext } from 'context/tab/tabAddModal'
+
+import { makeStyles } from '@material-ui/styles'
 
 import TabAddButton from 'components/tabs/TabAddButton'
 
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-const styles = (theme: Theme) => createStyles({
+const useStyles = makeStyles(theme => ({
     tab: {
         width: 120
     }
-})
+}))
 
-type Props = {
-    tabs: React.ReactChild[]
-    loading: boolean
-    add: () => {}
-}
+const TabsPanel: React.SFC = (props) => {
+    const classes = useStyles()
+    const tabsStore = React.useContext(tabsContext)
+    const tabAddModalStore = React.useContext(tabAddModalContext)
 
-const TabsPanel: React.SFC<Props> = (props: Props & WithStyles<typeof styles>) => {
-    const { classes, tabs, loading, add } = props
+    React.useEffect(() => {
+        tabsStore.getAll()
+    }, [])
 
-    const content = loading
+    const content = tabsStore.loading
         ? (
             <CircularProgress />
         )
         : (
             <>
-                {tabs.map((tab, i) => (
+                {tabsStore.tabs.map((tab, i) => (
                     <Grid item key={i} className={classes.tab}>
-                        {tab}
+                        <TabCard tab={tab} key={i} />
                     </Grid>
                 ))}
                 <Grid item className={classes.tab}>
-                    <TabAddButton onClick={add} />
+                    <TabAddButton onClick={tabAddModalStore.openModal} />
                 </Grid>
             </>
         )
@@ -55,4 +61,4 @@ const TabsPanel: React.SFC<Props> = (props: Props & WithStyles<typeof styles>) =
     )
 }
 
-export default withStyles(styles)(TabsPanel)
+export default TabsPanel

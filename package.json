@@ -1,41 +1,40 @@
 {
   "name": "GeekBudget.Web",
+  "homepage": "https://minajevs.github.io/GeekBudget.Web",
   "version": "0.0.1",
   "repository": "git@github.com:minajevs/GeekBudget.Web.git",
   "author": "Dmitrijs Minajevs <d3xx133@gmail.com>",
   "dependencies": {
-    "@material-ui/core": "3.2.2",
-    "@material-ui/icons": "^3.0.1",
-    "@types/material-ui": "^0.21.5",
-    "connected-react-router": "^4.3.0",
-    "nswag": "^11.20.1",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-redux": "^5.0.7",
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
+    "@material-ui/styles": "^3.0.0-alpha.10",
+    "@types/material-ui": "^0.21.6",
+    "connected-react-router": "^6.3.1",
+    "nswag": "^12.0.14",
+    "react": "^16.8.3",
+    "react-concise-state": "^1.1.0-1",
+    "react-dom": "^16.8.3",
+    "react-number-format": "^4.0.6",
     "react-router-dom": "^4.3.1",
-    "react-router-redux": "^4.0.8",
-    "react-scripts-ts": "2.17.0",
-    "redux": "^4.0.0",
-    "redux-devtools-extension": "^2.13.5",
-    "redux-thunk": "^2.3.0",
+    "react-scripts-ts": "^3.1.0",
     "typeface-roboto": "^0.0.54",
-    "typesafe-actions": "^2.0.4"
+    "typesafe-actions": "^3.2.1"
   },
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
     "swagger-update-test": "nswag.gen.bat"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.0",
-    "@types/node": "^10.5.2",
-    "@types/react": "^16.4.6",
-    "@types/react-dom": "^16.0.6",
-    "@types/react-redux": "^6.0.4",
-    "@types/react-router-dom": "^4.3.0",
-    "@types/react-router-redux": "^5.0.15",
-    "typescript": "^3.0.3"
+    "@types/jest": "^24.0.9",
+    "@types/node": "^11.10.4",
+    "@types/react": "^16.8.6",
+    "@types/react-dom": "^16.8.2",
+    "@types/react-router-dom": "^4.3.1",
+    "typescript": "^3.3.3333"
   }
 }

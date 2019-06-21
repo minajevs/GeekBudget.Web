@@ -28,7 +28,7 @@ type Props = {
     children?: React.ReactNode
 }
 
-const MainPage: React.SFC<Props> = (props: Props & WithStyles<typeof styles>) => {
+const MainPage: React.FC<Props & WithStyles<typeof styles>> = (props: Props & WithStyles<typeof styles>) => {
     const { classes, tabColumn, operationColumn, children } = props
     return (
         <>

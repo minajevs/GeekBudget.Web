@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 
-import Button from '@material-ui/core/Button'
+import Fab from '@material-ui/core/Fab'
 
 import AddIcon from '@material-ui/icons/Add'
 
@@ -13,20 +13,19 @@ const styles = (theme: Theme) => createStyles({
 })
 
 type Props = {
-    onClick: () => {}
+    onClick: () => void
 }
 
-const TabAddButton: React.SFC<Props> = (props: Props & WithStyles<typeof styles>) => {
+const TabAddButton: React.SFC<Props & WithStyles<typeof styles>> = (props: Props & WithStyles<typeof styles>) => {
     const { classes, onClick } = props
     return (
         <div className={classes.wrapper}>
-            <Button
-                variant="fab"
+            <Fab
                 aria-label="Add"
                 onClick={onClick}
             >
                 <AddIcon />
-            </Button>
+            </Fab>
         </div>
     )
 }

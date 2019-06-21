@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
 
-import { Tab } from 'store/tabs/types'
+import { Tab } from 'context/tab/types'
 
 const styles = (theme: Theme) => createStyles({
     tab: {

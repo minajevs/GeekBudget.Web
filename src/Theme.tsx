@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
 
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core'
+import { ThemeProvider } from '@material-ui/styles'
 
 import teal from '@material-ui/core/colors/teal'
 import blueGrey from '@material-ui/core/colors/blueGrey'
@@ -21,7 +21,7 @@ const theme = createMuiTheme({
     background: {
       default: blueGrey[50],
     },
-    
+
     // error: will use the default color
   },
 });
@@ -30,13 +30,13 @@ class Theme extends React.Component<OwnProps> {
   public render() {
     const { children } = this.props
     return (
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         {children}
-      </MuiThemeProvider>
+      </ThemeProvider>
     );
   }
 }
 
 // map state to props
 
-export default connect()(Theme)
+export default Theme
