@@ -20,8 +20,8 @@ This project is under **heavy** development. There is first alpha-version upcomi
 ## Tech-stack
 * React 16
 * React Router 4
-* Redux 5
-* [Material UI @next](https://material-ui-next.com/)
+* React-concise-state
+* [Material UI](https://material-ui.com/)
 
 
 * Jest
