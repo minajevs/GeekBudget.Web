@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
 import { Tab } from 'context/tab/types'
 import { context } from 'context/tab/tabAddModal'
@@ -13,33 +13,32 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
-const styles = (theme: Theme) => createStyles({
+const useStyles = makeStyles(theme => ({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
     },
-})
+}))
 
-const defaultTab: Tab = {
-    id: 0,
-    name: '',
-    amount: 0,
-    currency: 'EUR',
-    type: 1
-}
-
-const TabAddDialog: React.FC<WithStyles<typeof styles>> = (props) => {
-    const [state, setState] = React.useState(defaultTab)
-
-    const { classes } = props
+const TabAddDialog: React.FC = props => {
+    const classes = useStyles()
 
     const store = React.useContext(context)
+    const defaultTab: Tab = React.useMemo(() => ({
+        id: 0,
+        name: '',
+        amount: 0,
+        currency: 'EUR',
+        type: store.tabType || 1
+    }), [store.tabType])
+
+    const [state, setState] = React.useState(defaultTab)
     const tabStore = React.useContext(tabContext)
 
-    const createInput = (key: keyof Tab, label: string = `Tab ${key}`) => {
-        return (<TextField
+    const createInput = (key: keyof Tab, label: string = `Tab ${key}`) =>
+        React.useMemo(() => (<TextField
             autoFocus
-            className={props.classes.textField}
+            className={classes.textField}
             margin="dense"
             id={key}
             label={label}
@@ -51,14 +50,13 @@ const TabAddDialog: React.FC<WithStyles<typeof styles>> = (props) => {
                     : 'text'
             }
         />
-        )
-    }
+        ), [state[key]])
 
-    const handleSave = () => {
-        tabStore.addTab(state)
+    const handleSave = React.useCallback((tab) => {
+        tabStore.addTab({ ...tab, type: store.tabType })
         store.closeModal()
         setState(defaultTab)
-    }
+    }, [store.tabType])
 
     return (
         <Dialog
@@ -66,13 +64,12 @@ const TabAddDialog: React.FC<WithStyles<typeof styles>> = (props) => {
             onClose={store.closeModal}
             aria-labelledby="form-dialog-title"
         >
-            <DialogTitle id="form-dialog-title">Add new Tab</DialogTitle>
+            <DialogTitle id="form-dialog-title">Add new [type {store.tabType}] Tab</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     Please fill all the necessary fields
                     </DialogContentText>
                 {createInput('name')}
-                {createInput('type')}
                 {createInput('currency')}
                 {createInput('amount')}
             </DialogContent>
@@ -80,7 +77,7 @@ const TabAddDialog: React.FC<WithStyles<typeof styles>> = (props) => {
                 <Button onClick={store.closeModal}>
                     Cancel
                     </Button>
-                <Button onClick={handleSave} color="primary">
+                <Button onClick={() => handleSave(state)} color="primary">
                     Add
                     </Button>
             </DialogActions>
@@ -88,4 +85,4 @@ const TabAddDialog: React.FC<WithStyles<typeof styles>> = (props) => {
     )
 }
 
-export default withStyles(styles)(TabAddDialog)
+export default TabAddDialog

@@ -1,27 +1,15 @@
 import * as React from 'react'
 
-import TabCard from 'components/tabs/TabCard'
-import { Tab } from 'context/tab/types'
 import { context as tabsContext } from 'context/tab/tabs'
-import { context as tabAddModalContext } from 'context/tab/tabAddModal'
-
-import { makeStyles } from '@material-ui/styles'
-
-import TabAddButton from 'components/tabs/TabAddButton'
 
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-const useStyles = makeStyles(theme => ({
-    tab: {
-        width: 120
-    }
-}))
+import TabsSection from 'components/tabs/TabsSection'
+import { TabType } from 'context/tab/types';
 
 const TabsPanel: React.SFC = (props) => {
-    const classes = useStyles()
     const tabsStore = React.useContext(tabsContext)
-    const tabAddModalStore = React.useContext(tabAddModalContext)
 
     React.useEffect(() => {
         tabsStore.getAll()
@@ -33,30 +21,15 @@ const TabsPanel: React.SFC = (props) => {
         )
         : (
             <>
-                {tabsStore.tabs.map((tab, i) => (
-                    <Grid item key={i} className={classes.tab}>
-                        <TabCard tab={tab} key={i} />
-                    </Grid>
-                ))}
-                <Grid item className={classes.tab}>
-                    <TabAddButton onClick={tabAddModalStore.openModal} />
-                </Grid>
+                <TabsSection type={TabType.Income} />
+                <TabsSection type={TabType.Account} />
+                <TabsSection type={TabType.Expense} last/>
             </>
         )
 
     return (
         <Grid container justify="center">
-            <Grid item>
-                <Grid
-                    container
-                    spacing={16}
-                    direction="row"
-                    alignItems="center"
-                    justify="center"
-                >
-                    {content}
-                </Grid>
-            </Grid>
+            {content}
         </Grid>
     )
 }

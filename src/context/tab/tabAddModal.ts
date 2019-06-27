@@ -2,11 +2,14 @@ import * as React from 'react'
 
 import createStateContext from 'react-concise-state'
 
+import { TabType } from 'context/tab/types'
+
 export const initialState = {
-    isOpen: false
+    isOpen: false,
+    tabType: null as TabType | null
 }
 
 export const [context, Provider] = createStateContext(initialState, ({ setState }) => ({
-    openModal: () => setState({ isOpen: true }),
-    closeModal: () => setState({ isOpen: false })
+    openModal: (tabType: TabType) => setState({ isOpen: true, tabType }),
+    closeModal: () => setState(prev => ({ ...prev, isOpen: false }))
 }))
